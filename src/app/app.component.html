@@ -2,6 +2,32 @@
 
 <hr>
 
+<h2>Cadastrar</h2>
+
+<p>Use este formunário para cadastrar uma disciplina.</p>
+
+<!-- 
+  two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
+                       -> Funciona tanto do tempate para o controller e vice versa
+-->
+<form style="background-color: lightgray;" class="mb-3" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
+
+  <div class="mb-3">
+    <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
+    <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
+    <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+  </div>
+
+  <div class="mb-3">
+    <label for="descricao" class="form-label">Descrição</label>
+    <textarea style="width: 30%;" class="form-control" cols="30" rows="5" name="descricao" [(ngModel)]="descricao"></textarea>
+    <!--<span>{{descricao}}</span>-->
+  </div>
+
+  <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
+      [disabled]="!formDisciplina.valid">Salvar</button>
+</form>
+
 <ul>
   <li *ngFor="let disciplina of disciplinas" (click)="selecionar(disciplina)">
     <p [class.selecionado]="selecionado == disciplina">{{disciplina.nome}}: </p>

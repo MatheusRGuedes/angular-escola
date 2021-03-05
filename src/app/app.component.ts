@@ -8,6 +8,8 @@ import { Disciplina } from './disciplina.model';
 })
 export class AppComponent {
   selecionado = null;
+  nome: string = '';
+  descricao :string | undefined;
 
   disciplinas = [
     new Disciplina('Língua Portuguesa', 'O objetivo é ler e produzir textos de qualidade, além de desenvolver a oralidade.'),
@@ -28,5 +30,13 @@ export class AppComponent {
     } else { //se selecionado 2x
       this.selecionado = null;
     }
+  }
+
+  salvar() {
+    console.log(this.nome +" "+ this.descricao);
+    const disciplina = new Disciplina(this.nome, this.descricao);
+    this.disciplinas.push(disciplina);
+    this.nome = '';
+    this.descricao = '';
   }
 }
