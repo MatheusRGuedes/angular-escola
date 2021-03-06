@@ -14,3 +14,7 @@ li p:nth-child(1):hover {
 li p:nth-child(2) {
     font-size: 10pt;
 }
+
+#tableDisciplina td, #tableDisciplina th {
+    padding: .35rem;
+}

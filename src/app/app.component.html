@@ -4,13 +4,11 @@
 
 <h2>Cadastrar</h2>
 
-<p>Use este formunário para cadastrar uma disciplina.</p>
-
 <!-- 
   two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
                        -> Funciona tanto do tempate para o controller e vice versa
 -->
-<form style="background-color: lightgray;" class="mb-3" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
+<form style="background-color: lightgray;" class="p-3" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
 
   <div class="mb-3">
     <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
@@ -20,7 +18,7 @@
 
   <div class="mb-3">
     <label for="descricao" class="form-label">Descrição</label>
-    <textarea style="width: 30%;" class="form-control" cols="30" rows="5" name="descricao" [(ngModel)]="descricao"></textarea>
+    <textarea style="width: 30%;" class="form-control" cols="30" rows="4" name="descricao" [(ngModel)]="descricao"></textarea>
     <!--<span>{{descricao}}</span>-->
   </div>
 
@@ -28,9 +26,32 @@
       [disabled]="!formDisciplina.valid">Salvar</button>
 </form>
 
-<ul>
+<!--<ul>
   <li *ngFor="let disciplina of disciplinas" (click)="selecionar(disciplina)">
     <p [class.selecionado]="selecionado == disciplina">{{disciplina.nome}}: </p>
     <p *ngIf="selecionado == disciplina">{{disciplina['descricao']}}</p>
   </li>
-</ul>
+</ul> -->
+
+<table id="tableDisciplina" class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">Operação</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let disciplina of disciplinas; index as i">
+      <th scope="row">{{i+1}}</th>
+      <td>{{disciplina.nome}}</td>
+      <td>{{disciplina.descricao}}</td>
+
+      <td>
+        <button style="padding: 1px 2px; " class="btn btn-danger" (click)="excluir(disciplina)">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

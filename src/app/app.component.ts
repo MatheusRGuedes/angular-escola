@@ -39,4 +39,11 @@ export class AppComponent {
     this.nome = '';
     this.descricao = '';
   }
+
+  excluir(disciplina :any) {
+    if ( confirm("Tem certeza que quer remover a disciplina '"+ disciplina.nome +"' ?") ) {
+      let index = this.disciplinas.indexOf(disciplina);
+      this.disciplinas.splice(index, 1); //remove um item começando do index da disciplina selecionada
+    }
+  }
 }
