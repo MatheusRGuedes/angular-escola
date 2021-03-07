@@ -9,7 +9,8 @@ import { Disciplina } from './disciplina.model';
 export class AppComponent {
   selecionado = null;
   nome: string = '';
-  descricao :string | undefined;
+  descricao :string = '';
+  editando :Disciplina | null = null;
 
   disciplinas = [
     new Disciplina('Língua Portuguesa', 'O objetivo é ler e produzir textos de qualidade, além de desenvolver a oralidade.'),
@@ -33,11 +34,19 @@ export class AppComponent {
   }
 
   salvar() {
-    console.log(this.nome +" "+ this.descricao);
-    const disciplina = new Disciplina(this.nome, this.descricao);
-    this.disciplinas.push(disciplina);
-    this.nome = '';
-    this.descricao = '';
+    if (this.editando != null) {
+      console.log("Editando..");
+      let index = this.disciplinas.indexOf(this.editando);
+      let nome = this.nome;
+      let descricao = this.descricao;
+      this.disciplinas.splice(index, 1, new Disciplina(nome, descricao));
+    } else {
+      console.log("Gravando: " + this.nome +" "+ this.descricao);
+      const disciplina = new Disciplina(this.nome, this.descricao);
+      this.disciplinas.push(disciplina);
+      this.nome = '';
+      this.descricao = '';
+    }
   }
 
   excluir(disciplina :any) {
@@ -45,5 +54,17 @@ export class AppComponent {
       let index = this.disciplinas.indexOf(disciplina);
       this.disciplinas.splice(index, 1); //remove um item começando do index da disciplina selecionada
     }
+  }
+
+  editar(disciplina :any) {
+    this.editando = disciplina;
+    this.nome = disciplina.nome;
+    this.descricao = disciplina.descricao;
+  }
+
+  cancelar() {
+    this.nome = '';
+    this.descricao = '';
+    this.editando = null;
   }
 }

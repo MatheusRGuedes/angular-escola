@@ -4,6 +4,8 @@
 
 <h2>Cadastrar</h2>
 
+<p>Use este formulário para cadastrar ou editar uma disciplina.</p>
+
 <!-- 
   two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
                        -> Funciona tanto do tempate para o controller e vice versa
@@ -24,6 +26,7 @@
 
   <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
       [disabled]="!formDisciplina.valid">Salvar</button>
+  <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
 </form>
 
 <!--<ul>
@@ -50,7 +53,9 @@
       <td>{{disciplina.descricao}}</td>
 
       <td>
-        <button style="padding: 1px 2px; " class="btn btn-danger" (click)="excluir(disciplina)">Excluir</button>
+        <button style="padding: 1px 2px;" class="btn btn-warning" (click)="editar(disciplina)">Editar</button>
+        &nbsp;
+        <button style="padding: 1px 2px;" class="btn btn-danger" (click)="excluir(disciplina)">Excluir</button>
       </td>
     </tr>
   </tbody>
