@@ -18,3 +18,9 @@ li p:nth-child(2) {
 #tableDisciplina td, #tableDisciplina th {
     padding: .35rem;
 }
+
+/*operador para sobrescrever estilo do componente de paginação*/
+.disciplinas-pagination /deep/ .ngx-pagination {
+    display: inline-block;
+    padding: 0px;
+}

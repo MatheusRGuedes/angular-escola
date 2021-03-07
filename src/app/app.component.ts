@@ -7,6 +7,9 @@ import { Disciplina } from './disciplina.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public paginaAtual = 1; //ao carregar o componente, inicializa na página 1
+  public qntddPorPag = 5; // cada pagina terá 5 itens
+
   selecionado = null;
   nome: string = '';
   descricao :string = '';
@@ -66,5 +69,9 @@ export class AppComponent {
     this.nome = '';
     this.descricao = '';
     this.editando = null;
+  }
+
+  mudaQtddItensPorPagina(event :any) {
+    console.log(event);
   }
 }
