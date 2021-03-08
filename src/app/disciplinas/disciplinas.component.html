@@ -1,0 +1,80 @@
+<h1>Disciplinas</h1>
+
+<hr>
+
+<h2>Cadastrar</h2>
+
+<p>Use este formulário para cadastrar ou editar uma disciplina.</p>
+
+<!-- 
+  two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
+                       -> Funciona tanto do tempate para o controller e vice versa
+-->
+<form style="background-color: lightgray;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
+
+  <div class="mb-3">
+    <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
+    <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
+    <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+  </div>
+
+  <div class="mb-3">
+    <label for="descricao" class="form-label">Descrição</label>
+    <textarea style="width: 30%;" class="form-control" cols="30" rows="4" name="descricao" [(ngModel)]="descricao"></textarea>
+    <!--<span>{{descricao}}</span>-->
+  </div>
+
+  <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
+      [disabled]="!formDisciplina.valid">Salvar</button>
+  <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+</form>
+
+<!--<ul>
+  <li *ngFor="let disciplina of disciplinas" (click)="selecionar(disciplina)">
+    <p [class.selecionado]="selecionado == disciplina">{{disciplina.nome}}: </p>
+    <p *ngIf="selecionado == disciplina">{{disciplina['descricao']}}</p>
+  </li>
+</ul> -->
+
+<div style="text-align: left;">
+  <!-- Painel de controle das páginas -->
+  <pagination-controls class="disciplinas-pagination" (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+
+  <!-- Opção mudar qtdd itens por página -->
+  <span style="margin-left: 30px;">Mostrando 
+    <select [(ngModel)]="qntddPorPag">
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+    </select>
+    itens por página.
+  </span>
+</div>
+
+<table id="tableDisciplina" class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">Ação</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let disciplina of disciplinas | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }; let i = index"
+        [class.table-active]="editando == disciplina">
+
+      <th scope="row">
+        <i *ngIf="editando == disciplina" class="fa fa-pen-square"></i> {{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}
+      </th>
+      <td>{{disciplina.nome}}</td>
+      <td>{{disciplina.descricao}}</td>
+
+      <td>
+        <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(disciplina)"><i class="fas fa-pencil-alt"></i></button>
+        &nbsp;
+        <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(disciplina)"><i class="fas fa-trash-alt"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

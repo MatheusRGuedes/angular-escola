@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
+import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DisciplinasComponent
   ],
   imports: [
     BrowserModule,
