@@ -1,0 +1,13 @@
+#table-reutilizavel td, #table-reutilizavel th {
+    padding: .35rem;
+}
+
+/*#table-reutilizavel .linhaMarcada {
+    background-color: gray;
+}*/
+
+/*operador para sobrescrever estilo do componente de paginação*/
+.pagination-reutilizavel-control /deep/ .ngx-pagination {
+    display: inline-block;
+    padding: 0px;
+}

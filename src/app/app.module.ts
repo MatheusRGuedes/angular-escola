@@ -8,11 +8,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
+import { TabelaComponent } from './reutilizaveis/tabela/tabela.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DisciplinasComponent
+    DisciplinasComponent,
+    TabelaComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,42 @@
+<div style="text-align: left;">
+    <!-- Painel de controle das páginas -->
+    <pagination-controls class="pagination-reutilizavel-control" (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+  
+    <!-- Opção mudar qtdd itens por página -->
+    <span style="margin-left: 30px;">Mostrando 
+      <select [(ngModel)]="qntddPorPag">
+        <option value="5" selected>5</option>
+        <option value="10">10</option>
+      </select>
+      itens por página.
+    </span>
+  </div>
+
+<table id="table-reutilizavel" class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Ação</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let disciplina of disciplinas | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }; let i = index"
+          [class.table-active]="editando == disciplina">
+  
+        <th scope="row">
+          <i *ngIf="editando == disciplina" class="fa fa-pen-square"></i> {{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}
+        </th>
+        <td>{{disciplina.nome}}</td>
+        <td>{{disciplina.descricao}}</td>
+  
+        <td>
+          <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(disciplina)"><i class="fas fa-pencil-alt"></i></button>
+          &nbsp;
+          <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(disciplina)"><i class="fas fa-trash-alt"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
