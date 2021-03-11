@@ -8,7 +8,9 @@ import { Disciplina } from '../disciplina.model'
 })
 export class DisciplinasComponent implements OnInit {
 
-  public disciplinas = <any>[];
+  public header :string[] = [];
+  public props :string[] = [];
+  public disciplinas :Disciplina[] = [];
 
   constructor() { }
 
@@ -25,6 +27,8 @@ export class DisciplinasComponent implements OnInit {
       new Disciplina('Língua Estrangeira Moderna - Inglês', 'percepção de sua própria cultura por meio do conhecimento da cultura de outros povos.'),
       new Disciplina('Ensino Religioso', 'É o estudo das diferentes manifestações do sagrado no coletivo')
     ];
+    this.header = ['Nome', 'Descrição'];
+    this.props = ['nome', 'descricao'];
   }
 
   selecionado = null;

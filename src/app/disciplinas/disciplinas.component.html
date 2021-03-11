@@ -29,15 +29,11 @@
   <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
 </form>
 
-<!--<ul>
-  <li *ngFor="let disciplina of disciplinas" (click)="selecionar(disciplina)">
-    <p [class.selecionado]="selecionado == disciplina">{{disciplina.nome}}: </p>
-    <p *ngIf="selecionado == disciplina">{{disciplina['descricao']}}</p>
-  </li>
-</ul> -->
 
 <!--TABELA PADRONIZADA. $event contera a disciplina-->
-<app-tabela [disciplinas]="disciplinas"
+<app-tabela [header]="header"
+            [props]="props"
+            [registros]="disciplinas"
             [editando]="editando"
             (onEditar)="editar($event)"
             (onExcluir)="excluir($event)">

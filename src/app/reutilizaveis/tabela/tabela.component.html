@@ -16,26 +16,26 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Descrição</th>
+        <th scope="col" *ngFor="let item of header">{{item}}</th>
         <th scope="col">Ação</th>
       </tr>
     </thead>
   
     <tbody>
-      <tr *ngFor="let disciplina of disciplinas | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }; let i = index"
-          [class.table-active]="editando == disciplina">
+      <tr *ngFor="let obj of registros | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }; let i = index"
+          [class.table-active]="editando == obj">
   
         <th scope="row">
-          <i *ngIf="editando == disciplina" class="fa fa-pen-square"></i> {{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}
+          <i *ngIf="editando == obj" class="fa fa-pen-square"></i> {{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}
         </th>
-        <td>{{disciplina.nome}}</td>
-        <td>{{disciplina.descricao}}</td>
+
+        <!--for para percorrer as propiedades da obj-->
+        <td *ngFor="let prop of props">{{obj[prop]}}</td>
   
         <td>
-          <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(disciplina)"><i class="fas fa-pencil-alt"></i></button>
+          <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(obj)"><i class="fas fa-pencil-alt"></i></button>
           &nbsp;
-          <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(disciplina)"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(obj)"><i class="fas fa-trash-alt"></i></button>
         </td>
       </tr>
     </tbody>
