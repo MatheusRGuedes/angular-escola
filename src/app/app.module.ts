@@ -10,6 +10,12 @@ import { AppComponent } from './app.component';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { TabelaComponent } from './reutilizaveis/tabela/tabela.component';
 
+import { DisciplinasService } from './disciplinas/disciplinas.service';
+
+/*
+  providers --> informa pr os demais componentes do módulo App, q os serviços estão disponiveis para o uso
+*/
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +28,7 @@ import { TabelaComponent } from './reutilizaveis/tabela/tabela.component';
     FormsModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [DisciplinasService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
