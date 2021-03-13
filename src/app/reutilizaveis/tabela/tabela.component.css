@@ -1,10 +1,36 @@
-#table-reutilizavel td, #table-reutilizavel th {
+.tabela-customizada {
+    width: 100%;
+    background-color: white;
+}
+
+.tabela-customizada th {
+    background-color: rgb(241, 244, 253);
+    color: rgb(52, 52, 77);
+    font-size: 0.95rem;
     padding: .35rem;
 }
 
-/*#table-reutilizavel .linhaMarcada {
-    background-color: gray;
-}*/
+/* REM deixa a font com tamanho do contexto do BODY
+    deixar o body com font de */
+.tabela-customizada tbody tr {
+    font-size: 0.9rem;
+    color: rgb(102, 102, 105);
+    margin-top: 10px;
+    border-bottom: 1px solid #dddddd;
+}
+.tabela-customizada tbody tr:last-child {
+    border-bottom: 2px solid #f3f3f3;
+}
+
+.linhaMarcada {
+    background-color: rgb(220, 231, 255);
+}
+
+.tabela-customizada td{
+    padding: .35rem;
+}
+
+
 
 /*operador para sobrescrever estilo do componente de paginação*/
 .pagination-reutilizavel-control /deep/ .ngx-pagination {

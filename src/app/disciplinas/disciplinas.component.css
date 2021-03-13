@@ -1,16 +1,12 @@
-.selecionado {
-    font-weight: bold;
+.conteudo-todo {
+    background-color: rgb(241, 244, 253);
+    padding: 0rem 1rem;
 }
 
-li p:nth-child(1) {
-    cursor: pointer;
-    font-size: 12pt;
+.conteudo-titulo {
+    width: 100%;
 }
 
-li p:nth-child(1):hover {
-    font-weight: bold;
-}
-
-li p:nth-child(2) {
-    font-size: 10pt;
+.conteudo-titulo p {
+    font-size: 1.25rem;
 }

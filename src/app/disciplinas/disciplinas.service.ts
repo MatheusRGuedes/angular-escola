@@ -42,7 +42,7 @@ export class DisciplinasService {
 
       let index;
       let disciplina :Disciplina | undefined = this.encontrar(id);
-      if (disciplina == undefined) throw new Error('Erro! Disciplina n encontrada para edição.');
+      if (disciplina == undefined) throw new Error('Erro! Disciplina não encontrada para edição.');
       else index = this.disciplinas.indexOf(disciplina);
 
       disciplina.nome = nome;

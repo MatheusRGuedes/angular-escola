@@ -3,13 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
-//Responsáveis pela paginação
+//Responsável pela paginação
 import { NgxPaginationModule } from 'ngx-pagination';
 
+//Componentes
 import { AppComponent } from './app.component';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { TabelaComponent } from './reutilizaveis/tabela/tabela.component';
 
+//Serviços
 import { DisciplinasService } from './disciplinas/disciplinas.service';
 
 /*

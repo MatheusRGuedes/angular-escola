@@ -16,6 +16,7 @@ export class DisciplinasComponent implements OnInit {
   nome: string = '';
   descricao :string = '';
   editando :Disciplina = {id: 0, nome: '', descricao: ''};
+  erroSalvar :boolean | null = null;
 
   //usará pr fazer injeção de dependencia e criar uma instância em disciplinaService
   constructor(private disciplinaService :DisciplinasService) { }
@@ -27,11 +28,18 @@ export class DisciplinasComponent implements OnInit {
   }
 
   salvar() {
-    const disciplina = this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao);
-    if (this.editando!.id != 0) { //permite a alteração novamente
-      this.editando = disciplina ? disciplina : {id: 0, nome: '', descricao: ''};
+    try {
+      const disciplina = this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao);
+      if (this.editando!.id != 0) { //permite a alteração novamente
+        this.editando = disciplina ? disciplina : {id: 0, nome: '', descricao: ''};
+      }
+      this.erroSalvar = false;
+    } catch (error) {
+      this.erroSalvar = true;
     }
   }
+
+  closeAlert() {this.erroSalvar = null;}
 
   excluir(disciplina :any) {
     if (this.editando?.id != 0) {

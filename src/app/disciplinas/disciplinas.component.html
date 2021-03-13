@@ -1,40 +1,48 @@
-<h1>Disciplinas</h1>
-
-<hr>
-
-<h2>Cadastrar</h2>
-
-<p>Use este formulário para cadastrar ou editar uma disciplina.</p>
-
-<!-- 
-  two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
-                       -> Funciona tanto do tempate para o controller e vice versa
--->
-<form style="background-color: lightgray;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
-
-  <div class="mb-3">
-    <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
-    <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
-    <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+<div class="conteudo-todo">
+  
+  <div *ngIf="erroSalvar != null && !erroSalvar" class="alert alert-success alert-dismissible fade show" role="alert">
+    Disciplina gravada com sucesso!
+    <button type="button" (click)="closeAlert()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <div *ngIf="erroSalvar != null && erroSalvar" class="alert alert-danger alert-dismissible fade show" role="alert">
+    Erro ao gravar disciplina:
+    <button type="button" (click)="closeAlert()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 
-  <div class="mb-3">
-    <label for="descricao" class="form-label">Descrição</label>
-    <textarea style="width: 30%;" class="form-control" cols="30" rows="4" name="descricao" [(ngModel)]="descricao"></textarea>
-    <!--<span>{{descricao}}</span>-->
+  <div class="conteudo-titulo">
+    <p>Disciplinas</p>
   </div>
 
-  <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
-      [disabled]="!formDisciplina.valid">Salvar</button>
-  <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-</form>
+  <!-- 
+    two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
+                        -> Funciona tanto do tempate para o controller e vice versa
+  -->
+  <form style="background-color: white;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
+
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
+      <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
+      <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+    </div>
+
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea style="width: 30%;" class="form-control" cols="30" rows="4" name="descricao" [(ngModel)]="descricao"></textarea>
+      <!--<span>{{descricao}}</span>-->
+    </div>
+
+    <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
+        [disabled]="!formDisciplina.valid">Salvar</button>
+    <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+  </form>
 
 
-<!--TABELA PADRONIZADA. $event contera a disciplina-->
-<app-tabela [header]="header"
-            [props]="props"
-            [registros]="disciplinas"
-            [editando]="editando"
-            (onEditar)="editar($event)"
-            (onExcluir)="excluir($event)">
-</app-tabela>
+  <!--TABELA PADRONIZADA. $event contera a disciplina-->
+  <app-tabela [header]="header"
+              [props]="props"
+              [registros]="disciplinas"
+              [editando]="editando"
+              (onEditar)="editar($event)"
+              (onExcluir)="excluir($event)">
+  </app-tabela>
+</div>
