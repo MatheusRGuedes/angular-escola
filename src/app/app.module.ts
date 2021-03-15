@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from  '@angular/common/http';
 
 //Responsável pela paginação
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -28,7 +29,8 @@ import { DisciplinasService } from './disciplinas/disciplinas.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    HttpClientModule
   ],
   providers: [DisciplinasService],
   bootstrap: [AppComponent]

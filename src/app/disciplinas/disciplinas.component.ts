@@ -21,22 +21,28 @@ export class DisciplinasComponent implements OnInit {
   //usará pr fazer injeção de dependencia e criar uma instância em disciplinaService
   constructor(private disciplinaService :DisciplinasService) { }
 
-  ngOnInit(): void {
-    this.disciplinas = this.disciplinaService.todos();
+  ngOnInit(): void {   
+    this.atualizaLista();
     this.header = ['Nome', 'Descrição'];
     this.props = ['nome', 'descricao'];
   }
 
+  atualizaLista() {
+    this.disciplinaService.todos().subscribe(disciplinas => this.disciplinas = disciplinas);
+  }
+
   salvar() {
-    try {
-      const disciplina = this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao);
-      if (this.editando!.id != 0) { //permite a alteração novamente
-        this.editando = disciplina ? disciplina : {id: 0, nome: '', descricao: ''};
+    this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao)
+    .subscribe(disciplinaSalva => {
+        this.cancelar();
+        this.erroSalvar = false;
+        this.atualizaLista();
+      },
+      error => { //caso ocorrer um erro, executa essa func
+        console.error(error); 
+        this.erroSalvar = true;
       }
-      this.erroSalvar = false;
-    } catch (error) {
-      this.erroSalvar = true;
-    }
+    );
   }
 
   closeAlert() {this.erroSalvar = null;}
@@ -45,7 +51,17 @@ export class DisciplinasComponent implements OnInit {
     if (this.editando?.id != 0) {
       alert("Você não pode excluir uma disciplina em modo edição.");
     } else if ( confirm("Tem certeza que quer remover a disciplina '"+ disciplina.nome +"' ?") ) {
-      this.disciplinaService.excluir(disciplina);
+      //delete nao retorna resultado, msm assim o subscribe é obrigatório pr executar a solicitação do delete
+      this.disciplinaService.excluir(disciplina).subscribe(
+        sussess => {
+          this.erroSalvar = false;
+          this.atualizaLista();
+        },
+        error => {
+          this.erroSalvar = true;
+          console.log(error);
+        }
+      );
     }
   }
 
