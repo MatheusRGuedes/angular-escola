@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Disciplina } from 'src/app/disciplina.model';
 
 /*
   Input é a entrada de dados/recursos que o componente disciplina fornece,

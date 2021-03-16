@@ -45,6 +45,12 @@ export class DisciplinasComponent implements OnInit {
     );
   }
 
+  abrir() {
+    const yourModuleName = require('bootstrap');
+    //const {modal} = yourModuleName
+    console.log(yourModuleName);
+  }
+
   closeAlert() {this.erroSalvar = null;}
 
   excluir(disciplina :any) {

@@ -1,9 +1,12 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about this file see: https://angular.io/config/tsconfig. 
+
+  Defino aqui em types, os recursos por fora usados em arquivos ts 
+*/
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": ["node"]
   },
   "files": [
     "src/main.ts",
