@@ -1,13 +1,6 @@
 <div class="conteudo-todo">
-  
-  <div *ngIf="erroSalvar != null && !erroSalvar" class="alert alert-success alert-dismissible fade show" role="alert">
-    Disciplina gravada com sucesso!
-    <button type="button" (click)="closeAlert()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  <div *ngIf="erroSalvar != null && erroSalvar" class="alert alert-danger alert-dismissible fade show" role="alert">
-    Erro ao gravar disciplina:
-    <button type="button" (click)="closeAlert()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+
+  <app-alert></app-alert>
 
   <div class="conteudo-titulo">
     <p>Disciplinas</p>
@@ -35,6 +28,8 @@
         [disabled]="!formDisciplina.valid">Salvar</button>
     <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
   </form>
+
+  <!--<button (click)="openAlert('alert-danger', 'teste')">teste</button>-->
 
   <!--TABELA PADRONIZADA. $event contera a disciplina-->
   <app-tabela [header]="header"

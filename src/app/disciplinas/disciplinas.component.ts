@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Disciplina } from '../disciplina.model';
+import { AlertComponent } from '../shared/alert/alert.component';
 import { DisciplinasService } from './disciplinas.service';
+import { AfterViewInit } from '@angular/core'
+
+/**
+ * ViewChild --> indica uma referência a um elemento no DOM
+ */
 
 @Component({
   selector: 'app-disciplinas',
@@ -18,40 +24,44 @@ export class DisciplinasComponent implements OnInit {
   editando :Disciplina = {id: 0, nome: '', descricao: ''};
   erroSalvar :boolean | null = null;
 
+  @ViewChild(AlertComponent) alertChild :AlertComponent | null = null;
+  //tipoAlerta :string = '';
+  //msgAlert : string = '';
+
   //usará pr fazer injeção de dependencia e criar uma instância em disciplinaService
   constructor(private disciplinaService :DisciplinasService) { }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.atualizaLista();
     this.header = ['Nome', 'Descrição'];
     this.props = ['nome', 'descricao'];
   }
 
+  ngAfterViewInit() {
+    this.alertChild = new AlertComponent();
+    //console.log(this.alertChild);
+  }
+
   atualizaLista() {
-    this.disciplinaService.todos().subscribe(disciplinas => this.disciplinas = disciplinas);
+    this.disciplinaService.todos().subscribe(disciplinas => this.disciplinas = disciplinas,
+      () => {
+        this.alertChild!.openAlert('danger', 'Ops! Erro ao carregar dados. Porfavor, tente novamente mais tarde.');
+      });
   }
 
   salvar() {
     this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao)
     .subscribe(disciplinaSalva => {
         this.cancelar();
-        this.erroSalvar = false;
+        this.alertChild!.openAlert('success', "Disciplina gravada com sucesso!");
         this.atualizaLista();
       },
       error => { //caso ocorrer um erro, executa essa func
         console.error(error); 
-        this.erroSalvar = true;
+        this.alertChild!.openAlert('danger', "Erro ao gravar, tente novamente.");
       }
     );
   }
-
-  abrir() {
-    const yourModuleName = require('bootstrap');
-    //const {modal} = yourModuleName
-    console.log(yourModuleName);
-  }
-
-  closeAlert() {this.erroSalvar = null;}
 
   excluir(disciplina :any) {
     if (this.editando?.id != 0) {
@@ -60,11 +70,11 @@ export class DisciplinasComponent implements OnInit {
       //delete nao retorna resultado, msm assim o subscribe é obrigatório pr executar a solicitação do delete
       this.disciplinaService.excluir(disciplina).subscribe(
         sussess => {
-          this.erroSalvar = false;
+          this.alertChild!.openAlert('success', "Disciplina excluída com sucesso!");
           this.atualizaLista();
         },
         error => {
-          this.erroSalvar = true;
+          this.alertChild!.openAlert('danger', "Erro ao excluir, tente novamente.");
           console.log(error);
         }
       );
@@ -82,4 +92,6 @@ export class DisciplinasComponent implements OnInit {
     this.descricao = '';
     this.editando = {id: 0, nome: '', descricao: ''};
   }
+
+  //nao consegui acessar o elemento alerta do filho nessa classe, por isso deixei os métodos no AlertComponent
 }
