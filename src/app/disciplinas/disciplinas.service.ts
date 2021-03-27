@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Disciplina } from '../disciplina.model';
+import { Disciplina } from '../shared/models/disciplina.model';
 
 import { HttpClient } from '@angular/common/http'
 import { take } from 'rxjs/operators';

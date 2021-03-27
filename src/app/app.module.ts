@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { TabelaComponent } from './shared/tabela/tabela.component';
 import { AlertComponent } from './shared/alert/alert.component';
+import { HomeComponent } from './home/home.component';
 
 //Serviços
 import { DisciplinasService } from './disciplinas/disciplinas.service';
@@ -25,7 +26,8 @@ import { DisciplinasService } from './disciplinas/disciplinas.service';
     AppComponent,
     DisciplinasComponent,
     TabelaComponent,
-    AlertComponent
+    AlertComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

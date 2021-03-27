@@ -1,0 +1,5 @@
+Classe Professor terá as seguintes propriedades:
+- id
+- nome
+- endereço
+- disciplina

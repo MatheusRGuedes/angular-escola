@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Disciplina } from '../disciplina.model';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Disciplina } from '../shared/models/disciplina.model';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { DisciplinasService } from './disciplinas.service';
-import { AfterViewInit } from '@angular/core'
 
 /**
  * ViewChild --> indica uma referência a um elemento no DOM
@@ -22,7 +21,7 @@ export class DisciplinasComponent implements OnInit {
   nome: string = '';
   descricao :string = '';
   editando :Disciplina = {id: 0, nome: '', descricao: ''};
-  erroSalvar :boolean | null = null;
+  //erroSalvar :boolean | null = null;
 
   @ViewChild(AlertComponent) alertChild :AlertComponent | null = null;
   //tipoAlerta :string = '';

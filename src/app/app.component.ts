@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Disciplina } from './disciplina.model';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +6,5 @@ import { Disciplina } from './disciplina.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+  title: string = '';
 }

@@ -1,1 +1,41 @@
-<app-disciplinas></app-disciplinas>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Logo</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" 
+            aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/">Home</a> <!--aria-current="page" para link ativo-->
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" role="button" class="nav-link dropdown-toggle" id="dropdownMenuAcademico" data-bs-toggle="dropdown" aria-expanded="false">
+                        Acadêmico
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAcademico">
+                        <li><a class="dropdown-item" routerLink="/disciplinas">Disciplinas</a></li>
+                        <li><a class="dropdown-item" href="#">Turmas</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" role="button" class="nav-link dropdown-toggle" id="dropdownMenuUsuarios" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuários
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuUsuarios">
+                        <li><a class="dropdown-item" href="#">Alunos</a></li>
+                        <li><a class="dropdown-item" href="#">Professores</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--Irá inicializado o componente que combinou com a rota do browser-->
+<router-outlet></router-outlet>
