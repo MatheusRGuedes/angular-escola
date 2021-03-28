@@ -13,6 +13,7 @@ import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { TabelaComponent } from './shared/tabela/tabela.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { HomeComponent } from './home/home.component';
+import { ProfessoresComponent } from './professores/professores.component';
 
 //Serviços
 import { DisciplinasService } from './disciplinas/disciplinas.service';
@@ -27,7 +28,8 @@ import { DisciplinasService } from './disciplinas/disciplinas.service';
     DisciplinasComponent,
     TabelaComponent,
     AlertComponent,
-    HomeComponent
+    HomeComponent,
+    ProfessoresComponent
   ],
   imports: [
     BrowserModule,

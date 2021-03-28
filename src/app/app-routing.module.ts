@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { HomeComponent } from './home/home.component';
+import { ProfessoresComponent } from './professores/professores.component';
 
 /*
   Arquivo do nível do topo
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 //usada para navegação entre as páginas do projeto 
 const appRoutes : Routes = [
   { path: 'disciplinas', component: DisciplinasComponent },
+  { path: 'professores', component: ProfessoresComponent },
   { path: '', component: HomeComponent},
 
   { path: '**', component: HomeComponent}

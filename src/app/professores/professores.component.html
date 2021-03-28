@@ -1,0 +1,40 @@
+<div class="conteudo-titulo">
+    <p>Professores</p>
+</div>
+
+<form style="background-color: white;" class="p-2 mb-3" action="">
+    <div class="d-flex flex-row mb-3">
+        <div class="blocoInput" style="width: 30%; margin-right: 20px;">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" placeholder="Nome professor">
+        </div>
+
+        <div class="blocoInput" style="width: 40%;">
+            <label for="endereco" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="endereco" placeholder="Endereço professor">
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="col-lg-6">
+            <label for="disciplina" class="form-label">Disciplina ministrada</label>
+            <select class="form-select" name="disciplina" id="disciplina">
+                <option selected value="">Selecione...</option>
+                <option value="1">Português</option>
+                <option value="3">Inglês</option>
+                <option value="5">Espanhol</option>
+                <option value="6">Matemática</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary">Salvar</button>
+</form>
+
+<app-tabela [header]="header"
+              [props]="props"
+              [registros]="professores"
+              [editando]="editando"
+              (onEditar)="editar($event)"
+              (onExcluir)="excluir($event)">
+</app-tabela>
