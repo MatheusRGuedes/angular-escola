@@ -1,12 +1,14 @@
-.conteudo-todo {
-    background-color: rgb(241, 244, 253);
-    padding: 0rem 1rem;
-}
-
 .conteudo-titulo {
     width: 100%;
 }
 
 .conteudo-titulo p {
     font-size: 1.25rem;
+}
+
+/* only previne q navegadores mais antigo q n suportam media querie d aplicar os estilos*/
+@media only screen and (max-width: 992px) {
+    input[name="nome"], textarea {
+        width: 100% !important;
+    }
 }

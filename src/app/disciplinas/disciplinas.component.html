@@ -1,42 +1,39 @@
-<div class="conteudo-todo">
+<app-alert></app-alert>
 
-  <app-alert></app-alert>
+<div class="conteudo-titulo">
+  <p>Disciplinas</p>
+</div>
 
-  <div class="conteudo-titulo">
-    <p>Disciplinas</p>
-  </div>
-
-  <!-- 
+<!-- 
     two-way data binding -> [(ngModel)] () -> evento e [] -> alteração prop html. 
                         -> Funciona tanto do tempate para o controller e vice versa
-  -->
-  <form style="background-color: white;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
+-->
+<form style="background-color: white;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
 
-    <div class="mb-3">
-      <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
-      <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
-      <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
-    </div>
+  <div class="mb-3">
+    <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
+    <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
+    <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+  </div>
 
-    <div class="mb-3">
-      <label for="descricao" class="form-label">Descrição</label>
-      <textarea style="width: 30%;" class="form-control" cols="30" rows="4" name="descricao" [(ngModel)]="descricao"></textarea>
-      <!--<span>{{descricao}}</span>-->
-    </div>
+  <div class="mb-3">
+    <label for="descricao" class="form-label">Descrição</label>
+    <textarea style="width: 30%;" class="form-control" cols="30" rows="3" name="descricao" [(ngModel)]="descricao"></textarea>
+    <!--<span>{{descricao}}</span>-->
+  </div>
 
-    <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
-        [disabled]="!formDisciplina.valid">Salvar</button>
-    <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-  </form>
+  <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
+      [disabled]="!formDisciplina.valid">Salvar</button>
+  <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+</form>
 
-  <!--<button (click)="openAlert('alert-danger', 'teste')">teste</button>-->
+<!--<button (click)="openAlert('alert-danger', 'teste')">teste</button>-->
 
-  <!--TABELA PADRONIZADA. $event contera a disciplina-->
-  <app-tabela [header]="header"
+<!--TABELA PADRONIZADA. $event contera a disciplina-->
+<app-tabela [header]="header"
               [props]="props"
               [registros]="disciplinas"
               [editando]="editando"
               (onEditar)="editar($event)"
               (onExcluir)="excluir($event)">
-  </app-tabela>
-</div>
+</app-tabela>
