@@ -13,30 +13,35 @@
   </div>
 
 <table class="tabela-customizada">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col" *ngFor="let item of header">{{item}}</th>
-        <th scope="col">Ação</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col" *ngFor="let item of header">{{item}}</th>
+      <th scope="col">Ação</th>
+    </tr>
+  </thead>
   
-    <tbody>
-      <tr *ngFor="let obj of registros | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }"
-          [class.linhaMarcada]="editando == obj"> <!--let i = index-->
+  <tbody>
+    <tr *ngFor="let obj of registros | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }"
+        [class.linhaMarcada]="editando == obj"> <!--let i = index-->
   
-        <td scope="row">
-          <i *ngIf="editando == obj" class="fa fa-pen-square"></i> {{obj.id}} <!--{{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}-->
-        </td>
+      <td scope="row">
+        <i *ngIf="editando == obj" class="fa fa-pen-square"></i> {{obj.id}} <!--{{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}-->
+      </td>
 
-        <!--for para percorrer as propiedades da obj-->
-        <td *ngFor="let prop of props">{{obj[prop]}}</td>
-  
-        <td>
-          <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(obj)"><i class="fas fa-pencil-alt"></i></button>
-          &nbsp;
-          <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(obj)"><i class="fas fa-trash-alt"></i></button>
+      <!--for para percorrer as propiedades de obj-->
+      <ng-template ngFor let-prop [ngForOf]="props">
+        <td *ngIf="prop.indexOf('.') != -1; else elseBlock"> <!--se for propriedade acessando outra-->
+          {{obj[prop.split('.')[0]][prop.split('.')[1]]}}
         </td>
-      </tr>
-    </tbody>
-  </table>
+        <ng-template #elseBlock><td>{{obj[prop]}}</td></ng-template>
+      </ng-template>
+  
+      <td>
+        <button class="btn btn-warning btn-sm" title="Editar" (click)="editar(obj)"><i class="fas fa-pencil-alt"></i></button>
+        &nbsp;
+        <button class="btn btn-danger btn-sm" title="Excluir" (click)="excluir(obj)"><i class="fas fa-trash-alt"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

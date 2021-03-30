@@ -11,6 +11,7 @@ import { ProfessoresComponent } from './professores/professores.component';
   RouterModule.forRoot --> irá configurar o mudulo e disponibilizar as rotas
                        --> Qnd o softaware é executado, o angular busca uma combinação da URL no browser com as rotas definidas(de
                            cima para baixo), chamando o shell component (appComponent);
+                       --> opcs: (enableTracing: true - habilita log visualizar rotas)
 */
 
 //usada para navegação entre as páginas do projeto 
@@ -23,7 +24,7 @@ const appRoutes : Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
