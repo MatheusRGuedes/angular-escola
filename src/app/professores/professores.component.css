@@ -3,3 +3,11 @@
         width: 50% !important;
     }
 }
+
+form label {
+    font-weight: 500;
+}
+
+.containerErro {
+    color: red;
+}

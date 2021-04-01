@@ -33,7 +33,7 @@ export class AlertComponent implements OnInit {
       alertElement.classList.add("alert-"+tipo);
       alertElement.firstElementChild!.innerHTML = mensagem;
 
-      setInterval(() => {
+      setTimeout(() => {
         this.closeAlert();
       }, 3500);
     }

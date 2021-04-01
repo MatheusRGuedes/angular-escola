@@ -2,16 +2,21 @@
     <p>Professores</p>
 </div>
 
+<!-- TODO: adicionar fututramente um componente para erros-->
 <form style="background-color: white;" class="p-2 mb-3" action="" [formGroup]="form" (ngSubmit)="gravar()">
     <div class="d-flex flex-row mb-3">
         <div class="blocoInput" style="width: 30%; margin-right: 20px;">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" placeholder="Nome professor" formControlName="nome">
+
+            <div *ngIf="campoInvalido('nome')" class="containerErro">Nome é obrigatório.</div>
         </div>
 
         <div class="blocoInput" style="width: 40%;">
             <label for="endereco" class="form-label">Endereço</label>
             <input type="text" class="form-control" id="endereco" placeholder="Endereço professor" formControlName="endereco">
+
+            <div *ngIf="campoInvalido('endereco')" class="containerErro">Endereço é obrigatório.</div>
         </div>
     </div>
 
@@ -25,10 +30,16 @@
                 <option value="5-Espanhol">Espanhol</option>
                 <option value="6-Matemática">Matemática</option>
             </select>
+
+            <div *ngIf="campoInvalido('disciplina')" class="containerErro">Disciplina é obrigatória.</div>
         </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="button" class="btn btn-dark" (click)="limparForm()">Cancelar</button>
+
+    <div>{{form.value | json}}</div>
+    <div>{{form.valid | json}}</div>
 </form>
 
 <app-tabela [header]="header"

@@ -11,6 +11,8 @@ import { Professor } from '../shared/models/professor.model';
 export class ProfessoresComponent implements OnInit {
   form :FormGroup = new FormGroup({});
 
+  public novoId :number = 1;
+
   public header :string[] = [];
   public props :string[] = [];
   public professores :Professor[] = [];
@@ -18,7 +20,9 @@ export class ProfessoresComponent implements OnInit {
 
   constructor(private formBuilder :FormBuilder) {
     this.form = formBuilder.group({
-      nome: [""], endereco: [""], disciplina: [""]
+      nome: ['', Validators.required], 
+      endereco: ['', Validators.required], 
+      disciplina: ['', Validators.required]
     });
   }
 
@@ -27,22 +31,41 @@ export class ProfessoresComponent implements OnInit {
     this.props = ["nome", "endereco", "disciplina.nome"];
   }
 
-  gravar() {
-    let nome = this.form.value.nome;
-    let endereco = this.form.value.endereco;
+  gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
+    let nome = (this.form.value.nome + "").trim();
+    let endereco = (this.form.value.endereco+"").trim();
     let disciplina = undefined;
 
-    if (this.form.value.disciplina != "") {
-      let disci = this.form.value.disciplina + "";
-      disciplina = {
-        "id": Number.parseInt(disci.split('-')[0]), 
-        "nome": disci.split('-')[1], 
-        "descricao": ""};
-    }    
+    console.log(this.form);
+    if (this.form.valid) {
+      if (this.form.value.disciplina != "") {
+        let disciInput = this.form.value.disciplina + "";
+        disciplina = {
+          "id": Number.parseInt(disciInput.split('-')[0]), 
+          "nome": disciInput.split('-')[1], 
+          "descricao": ""
+        };
+      }    
     
-    this.professores.push(new Professor(1, nome, endereco, disciplina));
-    console.log(this.professores);
+      this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
+      this.novoId++;
+      //console.log(this.professores);
+    } else {
+      Object.keys(this.form.controls).forEach(campo => {
+        //console.log(campo);
+        const control = this.form.get(campo);
+        control?.markAsDirty();
+      })
+    }
+  }
 
+  campoInvalido(campo :string) :boolean | undefined {
+    return (
+      !this.form.get(campo)?.valid && this.form.get(campo)?.dirty
+    );
+  }
+
+  limparForm() {
     this.form.reset({nome: "", endereco: "", disciplina: ""}); //setando cd um pr n bugar o select
   }
 
