@@ -11,7 +11,7 @@ import { Professor } from '../shared/models/professor.model';
 export class ProfessoresComponent implements OnInit {
   form :FormGroup = new FormGroup({});
 
-  public novoId :number = 1;
+  public novoId :number = 4;
 
   public header :string[] = [];
   public props :string[] = [];
@@ -29,12 +29,17 @@ export class ProfessoresComponent implements OnInit {
   ngOnInit(): void {
     this.header = ["Nome", "Endereço", "Disciplina"];
     this.props = ["nome", "endereco", "disciplina.nome"];
+    this.professores = [
+      {id: 1, nome: "Matheus", endereco: "Av. Dom Ruan - SP", disciplina: {id: 3, nome: "Inglês", descricao: ""}},
+      {id: 2, nome: "Ruan", endereco: "Rua Teixeira Passos, 102 - RJ", disciplina: {id: 1, nome: "Português", descricao: ""}},
+      {id: 3, nome: "yasmim", endereco: "R. Alexandre Frota - vila - RS", disciplina: {id: 5, nome: "Espanhol", descricao: ""}}
+    ]
   }
 
   gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
     let nome = (this.form.value.nome + "").trim();
     let endereco = (this.form.value.endereco+"").trim();
-    let disciplina = undefined;
+    let disciplina :Disciplina | undefined = undefined;
 
     console.log(this.form);
     if (this.form.valid) {
@@ -45,17 +50,47 @@ export class ProfessoresComponent implements OnInit {
           "nome": disciInput.split('-')[1], 
           "descricao": ""
         };
-      }    
-    
-      this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
-      this.novoId++;
-      //console.log(this.professores);
+      }
+
+      if (this.editando != null) {
+        this.professores.find((professor) => {
+          if (professor.id == this.editando!.id) {
+            professor.nome = nome;
+            professor.endereco = endereco;
+            professor.disciplina = disciplina;
+            this.editando = professor;
+          }
+        });
+      } else {
+        this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
+        this.novoId++;
+        //console.log(this.professores);
+      }
     } else {
       Object.keys(this.form.controls).forEach(campo => {
         //console.log(campo);
         const control = this.form.get(campo);
         control?.markAsDirty();
       })
+    }
+  }
+
+  editar(professor :any) {
+    this.limparForm();
+    console.log(professor);
+    
+    this.editando = professor;
+    this.form.get('nome')?.setValue(professor.nome);
+    this.form.get(['endereco'])?.setValue(professor.endereco);
+    this.form.get(['disciplina'])?.setValue(professor.disciplina.id +"-"+ professor.disciplina.nome);
+  }
+
+  excluir(professor :any) {
+    if (this.editando != null) {
+      alert("Você não pode excluir um professor em modo edição.");
+    } else if (confirm("Deseja remover o professor "+professor.nome+" ?")) {
+      let index = this.professores.indexOf(professor);
+      this.professores.splice(index, 1);
     }
   }
 
@@ -67,8 +102,6 @@ export class ProfessoresComponent implements OnInit {
 
   limparForm() {
     this.form.reset({nome: "", endereco: "", disciplina: ""}); //setando cd um pr n bugar o select
+    this.editando = null;
   }
-
-  editar(professor :any) {}
-  excluir(professor :any) {}
 }
