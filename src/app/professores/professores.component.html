@@ -25,10 +25,11 @@
             <label for="disciplina" class="form-label">Disciplina ministrada</label>
             <select class="form-select" name="disciplina" id="disciplina" formControlName="disciplina">
                 <option selected value="">Selecione...</option>
-                <option value="1-Português">Português</option>
+                <option *ngFor="let disc of disciplinas" value="{{disc.id}}">{{disc.nome}}</option>
+                <!--<option value="1-Português">Português</option>
                 <option value="3-Inglês">Inglês</option>
                 <option value="5-Espanhol">Espanhol</option>
-                <option value="6-Matemática">Matemática</option>
+                <option value="6-Matemática">Matemática</option>-->
             </select>
 
             <div *ngIf="campoInvalido('disciplina')" class="containerErro">Disciplina é obrigatória.</div>
@@ -36,7 +37,8 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar</button>
-    <button type="button" class="btn btn-dark" (click)="limparForm()">Cancelar</button>
+    &nbsp;&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="limparForm()">Cancelar</button>
 
     <div>{{form.value | json}}</div>
     <div>{{form.valid | json}}</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DisciplinasService } from '../disciplinas/disciplinas.service';
 import { Disciplina } from '../shared/models/disciplina.model';
 import { Professor } from '../shared/models/professor.model';
 
@@ -18,7 +19,9 @@ export class ProfessoresComponent implements OnInit {
   public professores :Professor[] = [];
   public editando :Professor | null = null;
 
-  constructor(private formBuilder :FormBuilder) {
+  disciplinas :Disciplina[] = [];
+
+  constructor(private formBuilder :FormBuilder, private disciplinaService :DisciplinasService) {
     this.form = formBuilder.group({
       nome: ['', Validators.required], 
       endereco: ['', Validators.required], 
@@ -29,31 +32,27 @@ export class ProfessoresComponent implements OnInit {
   ngOnInit(): void {
     this.header = ["Nome", "Endereço", "Disciplina"];
     this.props = ["nome", "endereco", "disciplina.nome"];
-    this.professores = [
-      {id: 1, nome: "Matheus", endereco: "Av. Dom Ruan - SP", disciplina: {id: 3, nome: "Inglês", descricao: ""}},
-      {id: 2, nome: "Ruan", endereco: "Rua Teixeira Passos, 102 - RJ", disciplina: {id: 1, nome: "Português", descricao: ""}},
-      {id: 3, nome: "yasmim", endereco: "R. Alexandre Frota - vila - RS", disciplina: {id: 5, nome: "Espanhol", descricao: ""}}
-    ]
+    this.recuperarDisciplinas();
   }
 
-  gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
-    let nome = (this.form.value.nome + "").trim();
-    let endereco = (this.form.value.endereco+"").trim();
-    let disciplina :Disciplina | undefined = undefined;
+  recuperarDisciplinas() {
+    this.disciplinaService.todos()
+      .subscribe((disciplinas) => {
+        this.disciplinas = disciplinas;
+      }, (error) => {
+        console.error("Erro ao recuperar disciplinas.");
+        this.disciplinas = [];
+      });
+  }
 
-    console.log(this.form);
-    if (this.form.valid) {
-      if (this.form.value.disciplina != "") {
-        let disciInput = this.form.value.disciplina + "";
-        disciplina = {
-          "id": Number.parseInt(disciInput.split('-')[0]), 
-          "nome": disciInput.split('-')[1], 
-          "descricao": ""
-        };
-      }
+  //observable assincrono angular lidar com variaveis
+  async gravaAssincrono(idDisciplina :number, nome :string, endereco :string) {
+    this.disciplinaService.encontrar(idDisciplina).subscribe(
+      async (disc) => { //função de callback como assincrona, possibilitando usar otras promisses sem problemas
+      let disciplina :Disciplina = disc;
 
       if (this.editando != null) {
-        this.professores.find((professor) => {
+        await this.professores.find((professor) => {
           if (professor.id == this.editando!.id) {
             professor.nome = nome;
             professor.endereco = endereco;
@@ -62,10 +61,23 @@ export class ProfessoresComponent implements OnInit {
           }
         });
       } else {
-        this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
+        await this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
         this.novoId++;
         //console.log(this.professores);
       }
+    }, (error) => {
+      console.error("Disciplina não encontrada.");
+    })
+  }
+
+  async gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
+    let nome = (this.form.value.nome + "").trim();
+    let endereco = (this.form.value.endereco+"").trim();
+    //let disciplina :Disciplina | undefined = undefined;
+
+    console.log(this.form);
+    if (this.form.valid) {
+      await this.gravaAssincrono(this.form.value.disciplina, nome, endereco);
     } else {
       Object.keys(this.form.controls).forEach(campo => {
         //console.log(campo);
@@ -82,7 +94,7 @@ export class ProfessoresComponent implements OnInit {
     this.editando = professor;
     this.form.get('nome')?.setValue(professor.nome);
     this.form.get(['endereco'])?.setValue(professor.endereco);
-    this.form.get(['disciplina'])?.setValue(professor.disciplina.id +"-"+ professor.disciplina.nome);
+    this.form.get(['disciplina'])?.setValue(professor.disciplina.id);
   }
 
   excluir(professor :any) {

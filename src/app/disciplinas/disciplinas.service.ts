@@ -23,8 +23,8 @@ export class DisciplinasService {
   constructor(private http: HttpClient) {}
 
   // os verbos do http retornam um objeto Objserver q está aguardando o servidor enviar a resposta, após o cliente receber a resposta 
-  // (assincrono), é executado o subscribe (cliente) e invoca função de sucesso/erro ou completo, em seguida é chamado a função d callback 
-  //passada no parametro d carregarDados
+  // (assincrono), é executado o subscribe (cliente) e invoca função de sucesso/erro ou completo, em seguida é chamado a função d 
+  // callback passada no parametro d carregarDados
 
   // pegar todas as disciplinas
   todos() {

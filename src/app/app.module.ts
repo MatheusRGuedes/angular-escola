@@ -17,6 +17,7 @@ import { ProfessoresComponent } from './professores/professores.component';
 
 //Serviços
 import { DisciplinasService } from './disciplinas/disciplinas.service';
+import { ProfessorService } from './professores/professor.service';
 
 /*
   providers --> informa pr os demais componentes do módulo App, q os serviços estão disponiveis para o uso
@@ -39,7 +40,7 @@ import { DisciplinasService } from './disciplinas/disciplinas.service';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [DisciplinasService],
+  providers: [DisciplinasService, ProfessorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
