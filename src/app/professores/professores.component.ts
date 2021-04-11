@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DisciplinasService } from '../disciplinas/disciplinas.service';
 import { Disciplina } from '../shared/models/disciplina.model';
 import { Professor } from '../shared/models/professor.model';
+import { ProfessorService } from './professor.service';
 
 @Component({
   selector: 'app-professores',
@@ -12,16 +13,15 @@ import { Professor } from '../shared/models/professor.model';
 export class ProfessoresComponent implements OnInit {
   form :FormGroup = new FormGroup({});
 
-  public novoId :number = 4;
-
   public header :string[] = [];
   public props :string[] = [];
   public professores :Professor[] = [];
-  public editando :Professor | null = null;
+  public editando :Professor | null = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
 
   disciplinas :Disciplina[] = [];
 
-  constructor(private formBuilder :FormBuilder, private disciplinaService :DisciplinasService) {
+  constructor(private formBuilder :FormBuilder, private disciplinaService :DisciplinasService, 
+      private professorService :ProfessorService) {
     this.form = formBuilder.group({
       nome: ['', Validators.required], 
       endereco: ['', Validators.required], 
@@ -32,12 +32,23 @@ export class ProfessoresComponent implements OnInit {
   ngOnInit(): void {
     this.header = ["Nome", "Endereço", "Disciplina"];
     this.props = ["nome", "endereco", "disciplina.nome"];
+    
     this.recuperarDisciplinas();
+    this.atualizaTable();
+  }
+
+  atualizaTable() {
+    this.professorService.todos().subscribe(
+      (professores) => { //ok
+        this.professores = professores;
+      }, (error) => {
+        console.error("Não foi possível recuperar professores.");
+      });
   }
 
   recuperarDisciplinas() {
-    this.disciplinaService.todos()
-      .subscribe((disciplinas) => {
+    this.disciplinaService.todos().subscribe(
+      (disciplinas) => {
         this.disciplinas = disciplinas;
       }, (error) => {
         console.error("Erro ao recuperar disciplinas.");
@@ -45,35 +56,27 @@ export class ProfessoresComponent implements OnInit {
       });
   }
 
-  //observable assincrono angular lidar com variaveis
+  //observable assincrono pro angular lidar com variaveis
   async gravaAssincrono(idDisciplina :number, nome :string, endereco :string) {
     this.disciplinaService.encontrar(idDisciplina).subscribe(
-      async (disc) => { //função de callback como assincrona, possibilitando usar otras promisses sem problemas
-      let disciplina :Disciplina = disc;
-
-      if (this.editando != null) {
-        await this.professores.find((professor) => {
-          if (professor.id == this.editando!.id) {
-            professor.nome = nome;
-            professor.endereco = endereco;
-            professor.disciplina = disciplina;
-            this.editando = professor;
+      (disc) => { //função de callback como assincrona, possibilitando usar otras promisses sem problemas
+        let disciplina :Disciplina = disc;
+        this.professorService.salvar(this.editando!.id, nome, endereco, disciplina).subscribe(
+          (professor) => {
+            this.atualizaTable();
+            this.limparForm();
+          }, (error) => {
+            console.error("Não foi possível gravar o professor.");
           }
-        });
-      } else {
-        await this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
-        this.novoId++;
-        //console.log(this.professores);
-      }
+        );
     }, (error) => {
       console.error("Disciplina não encontrada.");
-    })
+    });
   }
 
   async gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
     let nome = (this.form.value.nome + "").trim();
     let endereco = (this.form.value.endereco+"").trim();
-    //let disciplina :Disciplina | undefined = undefined;
 
     console.log(this.form);
     if (this.form.valid) {
@@ -98,11 +101,16 @@ export class ProfessoresComponent implements OnInit {
   }
 
   excluir(professor :any) {
-    if (this.editando != null) {
+    if (this.editando?.id != 0) {
       alert("Você não pode excluir um professor em modo edição.");
     } else if (confirm("Deseja remover o professor "+professor.nome+" ?")) {
-      let index = this.professores.indexOf(professor);
-      this.professores.splice(index, 1);
+      this.professorService.excluir(professor).subscribe(
+        () => {
+          this.atualizaTable();
+        }, (error) => {
+          console.error("Não foi possível excluir o professor.");
+        }
+      );
     }
   }
 
@@ -114,6 +122,6 @@ export class ProfessoresComponent implements OnInit {
 
   limparForm() {
     this.form.reset({nome: "", endereco: "", disciplina: ""}); //setando cd um pr n bugar o select
-    this.editando = null;
+    this.editando = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
   }
 }
