@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DisciplinasService } from '../disciplinas/disciplinas.service';
+import { AlertComponent } from '../shared/alert/alert.component';
 import { Disciplina } from '../shared/models/disciplina.model';
 import { Professor } from '../shared/models/professor.model';
 import { ProfessorService } from './professor.service';
@@ -17,6 +18,8 @@ export class ProfessoresComponent implements OnInit {
   public props :string[] = [];
   public professores :Professor[] = [];
   public editando :Professor | null = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
+
+  @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
   disciplinas :Disciplina[] = [];
 
@@ -42,7 +45,7 @@ export class ProfessoresComponent implements OnInit {
       (professores) => { //ok
         this.professores = professores;
       }, (error) => {
-        console.error("Não foi possível recuperar professores.");
+        this.alertChild.openAlert("danger", "Ops! Não foi possível carregar os professores.");
       });
   }
 
@@ -51,7 +54,7 @@ export class ProfessoresComponent implements OnInit {
       (disciplinas) => {
         this.disciplinas = disciplinas;
       }, (error) => {
-        console.error("Erro ao recuperar disciplinas.");
+        this.alertChild.openAlert("danger", "Ops! Não foi possível carregar as disciplinas");
         this.disciplinas = [];
       });
   }
@@ -66,11 +69,11 @@ export class ProfessoresComponent implements OnInit {
             this.atualizaTable();
             this.limparForm();
           }, (error) => {
-            console.error("Não foi possível gravar o professor.");
+            this.alertChild.openAlert('danger', 'Não foi possível gravar o professor. Tente mais tarde.');
           }
         );
     }, (error) => {
-      console.error("Disciplina não encontrada.");
+      this.alertChild.openAlert('danger', 'Ops! Disciplina não encontrada.');
     });
   }
 
@@ -78,7 +81,7 @@ export class ProfessoresComponent implements OnInit {
     let nome = (this.form.value.nome + "").trim();
     let endereco = (this.form.value.endereco+"").trim();
 
-    console.log(this.form);
+    //console.log(this.form);
     if (this.form.valid) {
       await this.gravaAssincrono(this.form.value.disciplina, nome, endereco);
     } else {
@@ -108,7 +111,7 @@ export class ProfessoresComponent implements OnInit {
         () => {
           this.atualizaTable();
         }, (error) => {
-          console.error("Não foi possível excluir o professor.");
+          this.alertChild.openAlert('danger', 'Não foi possível excluir o professor. Tente mais tarde.');
         }
       );
     }

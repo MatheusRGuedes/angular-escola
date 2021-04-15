@@ -1,5 +1,1 @@
-Classe Professor terá as seguintes propriedades:
-- id
-- nome
-- endereço
-- disciplina
+Adicionar componente de alerta em professores

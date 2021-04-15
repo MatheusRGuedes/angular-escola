@@ -23,6 +23,10 @@ export class AlertComponent implements OnInit {
     //this.alertElement= new ElementRef(document.querySelector(".alert"));
   //}
 
+  /**
+   * @param tipo Specifies the type of the alert element. Can be 'danger' or 'success'.
+   * @param mensagem Specifies the message of the alert element.
+   */
   openAlert(tipo: string, mensagem: string) {
     let alertElement = document.getElementById("alertElement");
     //console.log(alertElement);
@@ -32,6 +36,8 @@ export class AlertComponent implements OnInit {
       alertElement.style.display = "block";
       alertElement.classList.add("alert-"+tipo);
       alertElement.firstElementChild!.innerHTML = mensagem;
+
+      if (tipo === "danger") console.error(mensagem);
 
       setTimeout(() => {
         this.closeAlert();
