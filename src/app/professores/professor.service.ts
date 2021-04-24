@@ -1,55 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Disciplina } from '../shared/models/disciplina.model';
+import { GenericService } from '../shared/generic-service';
 import { Professor } from '../shared/models/professor.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfessorService {
+export class ProfessorService extends GenericService<Professor> {
 
-  public novoId :number = 4;
-  
-  //adicionar registros
-  public professores :Professor[] = [];
-  public professorAchado :Professor | null = null;
+  //public novoId :number = 4;
+  //public professores :Professor[] = [];
+  //public professorAchado :Professor | null = null;
 
-  public readonly API_URL :string = "http://localhost:3000";
-
-  constructor(private http: HttpClient) { }
+  constructor(protected http: HttpClient) {
+    super(http, "http://localhost:3000/professores");
+  }
 
   todos() {
-    return this.http.get<Professor[]>(this.API_URL + "/professores");
+    return this.findAll();
   }
 
-  encontrar(id :number) {
-    return this.professores.find((professor) => id === professor.id);
-  }
-
-  salvar(id :number, nome :string, endereco :string, disciplina :Disciplina) {
-    const professor = {"nome": nome, "endereco": endereco, "disciplina": disciplina}
-    if (id) {
-      /*this.professores.find((professor) => {
-        if (id === professor.id) {
-          professor.nome = nome;
-          professor.endereco = endereco;
-          professor.disciplina = disciplina;
-          this.professorAchado = professor;
-        }
-      });*/
-      return this.http.put<Professor>(this.API_URL +"/professores/"+id, professor);
-
-      //return this.professorAchado;
-    } else {
-      //this.professores.push(new Professor(this.novoId, nome, endereco, disciplina));
-      //this.novoId++; 
-      return this.http.post(this.API_URL+"/professores", professor);
-    }
-
-    //return {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
+  salvar(id :number, professor: Object) {
+    return this.save(id, professor);
   }
 
   excluir(professor :Professor) {
-    return this.http.delete(this.API_URL+"/professores/"+professor.id);
+    return this.delete(professor.id);
   }
 }

@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlertComponent implements OnInit {
 
+  private id_timeOut : NodeJS.Timeout | null = null;
+
   //@ViewChild('alertElement') alertElement :ElementRef | null = null;
 
   //não era atualizado seus valores no template, por isso tirei
@@ -33,20 +35,21 @@ export class AlertComponent implements OnInit {
 
     if (alertElement != null) {
       //this.alertElement.nativeElement.style.display = "block";
-      alertElement.style.display = "block";
       alertElement.classList.add("alert-"+tipo);
       alertElement.firstElementChild!.innerHTML = mensagem;
+      alertElement.style.display = "block";
 
       if (tipo === "danger") console.error(mensagem);
 
-      setTimeout(() => {
-        this.closeAlert();
-      }, 3500);
+      this.id_timeOut = setTimeout(this.closeAlert, 3500);
     }
   }
 
   closeAlert() {
     //this.alertElement!.nativeElement.style.display = "none";
+
+    //para a execução do setTimeOut, evitando erro de null pointer ou executação dupla
+    clearTimeout(this.id_timeOut!);
     document.getElementById("alertElement")!.style.display = "none";
   }
 }

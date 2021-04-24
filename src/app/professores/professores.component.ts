@@ -17,7 +17,7 @@ export class ProfessoresComponent implements OnInit {
   public header :string[] = [];
   public props :string[] = [];
   public professores :Professor[] = [];
-  public editando :Professor | null = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
+  public editando :Professor = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
 
   @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
@@ -63,11 +63,13 @@ export class ProfessoresComponent implements OnInit {
   async gravaAssincrono(idDisciplina :number, nome :string, endereco :string) {
     this.disciplinaService.encontrar(idDisciplina).subscribe(
       (disc) => { //função de callback como assincrona, possibilitando usar otras promisses sem problemas
-        let disciplina :Disciplina = disc;
-        this.professorService.salvar(this.editando!.id, nome, endereco, disciplina).subscribe(
+        const professor = {"nome": nome, "endereco": endereco, "disciplina": disc}
+
+        this.professorService.salvar(this.editando.id, professor).subscribe(
           (professor) => {
             this.atualizaTable();
             this.limparForm();
+            this.alertChild.openAlert('success', 'Professor gravado com sucesso.');
           }, (error) => {
             this.alertChild.openAlert('danger', 'Não foi possível gravar o professor. Tente mais tarde.');
           }
@@ -104,12 +106,13 @@ export class ProfessoresComponent implements OnInit {
   }
 
   excluir(professor :any) {
-    if (this.editando?.id != 0) {
+    if (this.editando.id != 0) {
       alert("Você não pode excluir um professor em modo edição.");
     } else if (confirm("Deseja remover o professor "+professor.nome+" ?")) {
       this.professorService.excluir(professor).subscribe(
         () => {
           this.atualizaTable();
+          this.alertChild.openAlert('success', 'Professor excluído com sucesso.');
         }, (error) => {
           this.alertChild.openAlert('danger', 'Não foi possível excluir o professor. Tente mais tarde.');
         }
