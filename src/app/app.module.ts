@@ -19,6 +19,9 @@ import { ProfessoresComponent } from './professores/professores.component';
 import { DisciplinasService } from './disciplinas/disciplinas.service';
 import { ProfessorService } from './professores/professor.service';
 
+//Pipes
+import { TypeofPipe } from './shared/pipes/typeof.pipe'
+
 /*
   providers --> informa pr os demais componentes do módulo App, q os serviços estão disponiveis para o uso
 */
@@ -30,7 +33,8 @@ import { ProfessorService } from './professores/professor.service';
     TabelaComponent,
     AlertComponent,
     HomeComponent,
-    ProfessoresComponent
+    ProfessoresComponent,
+    TypeofPipe
   ],
   imports: [
     BrowserModule,

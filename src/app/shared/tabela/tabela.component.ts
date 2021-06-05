@@ -34,7 +34,8 @@ export class TabelaComponent implements OnInit {
 
   public paginaAtual = 1; //ao carregar o componente, inicializa na página 1
   public qntddPorPag = 5; // cada pagina terá 5 itens
-  
+  public responsive: boolean = true;
+
   constructor() { }
 
   ngOnInit(): void {}

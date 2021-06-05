@@ -15,12 +15,18 @@
         <i *ngIf="editando == obj" class="fa fa-pen-square"></i> {{obj.id}} <!--{{ qntddPorPag * (paginaAtual - 1)  +  (i+1) }}-->
       </td>
 
-      <!--for para percorrer as propiedades de obj-->
+      <!-- for para percorrer as propiedades de obj -->
       <ng-template ngFor let-prop [ngForOf]="props">
         <td *ngIf="prop.indexOf('.') != -1; else elseBlock"> <!--se for propriedade acessando outra-->
           {{obj[prop.split('.')[0]][prop.split('.')[1]]}}
         </td>
-        <ng-template #elseBlock><td>{{obj[prop]}}</td></ng-template>
+
+        <ng-template #elseBlock>
+          <ng-container [ngSwitch]="(obj[prop] | typeof)">
+            <td *ngSwitchCase="'number'">{{obj[prop] | currency:'BRL':true}}</td> <!--true pr aparecer R$-->
+            <td *ngSwitchDefault>{{obj[prop]}}</td>
+          </ng-container>
+        </ng-template>
       </ng-template>
   
       <td>
@@ -37,6 +43,7 @@
   <pagination-controls class="pagination-reutilizavel-control" 
       (pageChange)="paginaAtual = $event"
       (pageBoundsCorrection)="paginaAtual = $event"
+      [responsive]="responsive"
       previousLabel="Anterior" 
       nextLabel="Próximo">
   </pagination-controls>
