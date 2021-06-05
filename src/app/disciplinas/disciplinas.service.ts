@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Disciplina } from '../shared/models/disciplina.model';
-
-import { HttpClient } from '@angular/common/http'
-import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { GenericService } from '../shared/generic-service';
 
 /*
@@ -19,7 +17,7 @@ export class DisciplinasService extends GenericService<Disciplina> {
   //public disciplinas :Disciplina[] = [];
   //public discEncontrada :Disciplina | null = null; 
 
-  //private readonly DISCIPLINA_URL :string = "http://localhost:3000/disciplinas";
+  private readonly DISCIPLINA_URL :string = "http://localhost:3000/disciplinas";
 
   constructor(public http: HttpClient) {
     super(http, "http://localhost:3000/disciplinas");
@@ -44,6 +42,11 @@ export class DisciplinasService extends GenericService<Disciplina> {
 
   encontrar(id: number)  {
     return this.findOne(id);
+  }
+
+  //https://angular.io/api/common/http/HttpClient#http-request-example
+  encontrarPorNome(nome :string) {
+    return this.http.get<Disciplina[]>(`${this.DISCIPLINA_URL}?nome=${nome}`);
   }
 
   excluir(disciplina :Disciplina) {

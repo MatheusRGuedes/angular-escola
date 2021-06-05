@@ -1,17 +1,3 @@
-<div style="text-align: left;">
-    <!-- Painel de controle das páginas -->
-    <pagination-controls class="pagination-reutilizavel-control" (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
-  
-    <!-- Opção mudar qtdd itens por página -->
-    <span style="margin-left: 30px;">Mostrando 
-      <select [(ngModel)]="qntddPorPag">
-        <option value="5" selected>5</option>
-        <option value="10">10</option>
-      </select>
-      itens por página.
-    </span>
-  </div>
-
 <table class="tabela-customizada">
   <thead>
     <tr>
@@ -45,3 +31,23 @@
     </tr>
   </tbody>
 </table>
+
+<div class="pagination-panel">
+  <!-- Painel de controle das páginas -->
+  <pagination-controls class="pagination-reutilizavel-control" 
+      (pageChange)="paginaAtual = $event"
+      (pageBoundsCorrection)="paginaAtual = $event"
+      previousLabel="Anterior" 
+      nextLabel="Próximo">
+  </pagination-controls>
+
+  <!-- Opção mudar qtdd itens por página -->
+  <span>
+    Mostrando 
+    <select [(ngModel)]="qntddPorPag">
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+    </select>
+    itens por página.
+  </span>
+</div>

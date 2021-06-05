@@ -37,8 +37,7 @@ export class TabelaComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   //esses eventos irão notificar o parent para invocar seus metodos 
   editar(obj :any) {

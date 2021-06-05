@@ -31,6 +31,16 @@
 }
 
 
+.pagination-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 15px;
+ }
+.pagination-panel span {
+    margin-left: 35px;
+}
+
 
 /*operador para sobrescrever estilo do componente de paginação*/
 .pagination-reutilizavel-control /deep/ .ngx-pagination {

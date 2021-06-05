@@ -1,1 +1,13 @@
-Adicionar componente de alerta em professores
+Tarefas:
+
+- Adicionar opção para pesquisa de registros;
+
+- Permitir incluir mais disciplinas por professor:
+    - adicionar popover para exibir os dados na tabela (endereço e disciplinas);
+
+- adicionar tira de endereço;
+
+
+Finalizadas: 
+
+    - ajeitar o painel de paginação, em baixo da tabela;

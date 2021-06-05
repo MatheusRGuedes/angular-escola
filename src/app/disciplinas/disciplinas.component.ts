@@ -20,6 +20,7 @@ export class DisciplinasComponent implements OnInit {
 
   nome: string = '';
   descricao :string = '';
+  nomePesquisa :string = '';
   editando :Disciplina = {id: 0, nome: '', descricao: ''};
   //erroSalvar :boolean | null = null;
 
@@ -84,6 +85,19 @@ export class DisciplinasComponent implements OnInit {
     this.editando = disciplina;
     this.nome = disciplina.nome;
     this.descricao = disciplina.descricao;
+  }
+
+  pesquisar() {
+    if (this.nomePesquisa.trim() != "") {
+      this.disciplinaService.encontrarPorNome(this.nomePesquisa).subscribe(
+        (disciplinas) => this.disciplinas = disciplinas,
+        (error) => {
+          this.alertChild?.openAlert('danger', 'Não foi possível encontrar disciplinas.');
+        }
+      )
+    } else {
+      this.atualizaLista();
+    }
   }
 
   cancelar() {
