@@ -1,23 +1,23 @@
-//pega o framework express para criação do servidor
+//importa o express para criação do servidor
 const express = require('express');
-
-//dependência para juntar o caminho
-//const path = require("path");
-
+//inicia express
 const app = express();
+//nome da pasta onde fará o build
+const appName = 'angular-escola';
+//local onde o build gerará os arquivos
+const outputPath = `${__dirname}/dist/${appName}`;
 
-//pega das variáveis d ambiente, a porta do heroku informada
-const PORT = process.env.PORT || 8080;
-
-//é feito uma requisição para a pasta de build
-app.use(express.static(__dirname, '/dist/angular-escola'));
+//seta o diretório d build para servir o conteúdo angular
+app.use(express.static(outputPath));
 
 //para qualquer requisição feita depois da /, irá ser enviado o arquivo index como resposta
 app.get('/*', (req, res) => {
-    res.sendFile(__dirname, '/dist/angular-escola/index.html');
+    res.sendFile(`${outputPath}/index.html`);
 });
 
-//teste do servidor
+const PORT = process.env.PORT || 8080;
+
+//teste do servidor, com a porta do heroku disponibilizada
 app.listen(PORT, () => {
     console.log('Servidor iniciado na porta ' + PORT);
 });
