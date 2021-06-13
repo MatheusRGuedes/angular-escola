@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Disciplina } from '../shared/models/disciplina.model';
-import { AlertComponent } from '../shared/alert/alert.component';
+import { AlertComponent } from '../shared/components/alert/alert.component';
 import { DisciplinasService } from './disciplinas.service';
 
 /**

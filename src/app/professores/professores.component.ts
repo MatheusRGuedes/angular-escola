@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DisciplinasService } from '../disciplinas/disciplinas.service';
-import { AlertComponent } from '../shared/alert/alert.component';
+import { AlertComponent } from '../shared/components/alert/alert.component';
 import { Disciplina } from '../shared/models/disciplina.model';
 import { Professor } from '../shared/models/professor.model';
 import { ProfessorService } from './professor.service';
@@ -17,7 +17,7 @@ export class ProfessoresComponent implements OnInit {
   public header :string[] = [];
   public props :string[] = [];
   public professores :Professor[] = [];
-  public editando :Professor = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
+  public editando :Professor = new Professor(0, "", "", 0, undefined);
 
   @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
@@ -28,13 +28,14 @@ export class ProfessoresComponent implements OnInit {
     this.form = formBuilder.group({
       nome: ['', Validators.required], 
       endereco: ['', Validators.required], 
+      salario: ['', Validators.required],
       disciplina: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.header = ["Nome", "Endereço", "Disciplina"];
-    this.props = ["nome", "endereco", "disciplina.nome"];
+    this.header = ["Nome", "Endereço", "Disciplina", "Salário"];
+    this.props = ["nome", "endereco", "disciplina.nome", "salario"];
     
     this.recuperarDisciplinas();
     this.atualizaTable();
@@ -43,7 +44,8 @@ export class ProfessoresComponent implements OnInit {
   atualizaTable() {
     this.professorService.todos().subscribe(
       (professores) => { //ok
-        this.professores = professores;
+        this.professores = professores.map(
+          p => new Professor(p.id, p.nome, p.endereco, p.salario, p.disciplina));
       }, (error) => {
         this.alertChild.openAlert("danger", "Ops! Não foi possível carregar os professores.");
       });
@@ -60,12 +62,12 @@ export class ProfessoresComponent implements OnInit {
   }
 
   //observable assincrono pro angular lidar com variaveis
-  async gravaAssincrono(idDisciplina :number, nome :string, endereco :string) {
-    this.disciplinaService.encontrar(idDisciplina).subscribe(
+  async gravaAssincrono(obj: any) {
+    this.disciplinaService.encontrar(obj["disciplina"]).subscribe(
       (disc) => { //função de callback como assincrona, possibilitando usar otras promisses sem problemas
-        const professor = {"nome": nome, "endereco": endereco, "disciplina": disc}
+        obj["disciplina"] = disc;
 
-        this.professorService.salvar(this.editando.id, professor).subscribe(
+        this.professorService.salvar(this.editando.id, obj).subscribe(
           (professor) => {
             this.atualizaTable();
             this.limparForm();
@@ -80,12 +82,14 @@ export class ProfessoresComponent implements OnInit {
   }
 
   async gravar() { /* pegarei os valores dos inputs e buscarei a disciplina -> jogarei para o service */
-    let nome = (this.form.value.nome + "").trim();
-    let endereco = (this.form.value.endereco+"").trim();
-
     //console.log(this.form);
     if (this.form.valid) {
-      await this.gravaAssincrono(this.form.value.disciplina, nome, endereco);
+      let nome = (this.form.value.nome + "").trim();
+      let endereco = (this.form.value.endereco+"").trim();
+      let salario = Number.parseFloat(this.form.value.salario);
+      let disciplina = this.form.value.disciplina;
+
+      await this.gravaAssincrono({nome, endereco, salario, disciplina});
     } else {
       Object.keys(this.form.controls).forEach(campo => {
         //console.log(campo);
@@ -95,14 +99,17 @@ export class ProfessoresComponent implements OnInit {
     }
   }
 
-  editar(professor :any) {
+  editar(professor :Professor) {
     this.limparForm();
     console.log(professor);
     
     this.editando = professor;
-    this.form.get('nome')?.setValue(professor.nome);
-    this.form.get(['endereco'])?.setValue(professor.endereco);
-    this.form.get(['disciplina'])?.setValue(professor.disciplina.id);
+    this.form.patchValue({
+      "nome": professor.nome,
+      "endereco": professor.endereco,
+      "disciplina": professor.disciplina?.id,
+      "salario": professor.salarioFormatado()
+    });
   }
 
   excluir(professor :any) {
@@ -127,7 +134,8 @@ export class ProfessoresComponent implements OnInit {
   }
 
   limparForm() {
-    this.form.reset({nome: "", endereco: "", disciplina: ""}); //setando cd um pr n bugar o select
-    this.editando = {"id": 0, "nome": "", "endereco": "", "disciplina": undefined};
+    //setando cd um no form pr n bugar o select
+    this.form.reset({nome: "", endereco: "", salario: "", disciplina: ""});
+    this.editando = new Professor(0, "", "", 0, undefined);
   }
 }

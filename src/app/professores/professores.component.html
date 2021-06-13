@@ -21,7 +21,15 @@
         </div>
     </div>
 
-    <div class="mb-3">
+    <div class="d-flex flex-row mb-3">
+        <div class="col-mb-2" style="margin-right: 20px;">
+            <label for="salario" class="form-label">Salário</label>
+            <input type="text" class="form-control" id="salario" formControlName="salario" mask="separator.2" 
+                thousandSeparator="." placeholder="Ex.: 1.234,56" />
+
+            <div *ngIf="campoInvalido('salario')" class="containerErro">Salário é obrigatório.</div>
+        </div>
+
         <div class="col-lg-6">
             <label for="disciplina" class="form-label">Disciplina ministrada</label>
             <select class="form-select" name="disciplina" id="disciplina" formControlName="disciplina">

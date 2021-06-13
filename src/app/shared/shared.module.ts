@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabelaComponent } from './tabela/tabela.component';
-import { AlertComponent } from './alert/alert.component';
+import { NgxMaskModule } from 'ngx-mask';
+//Components
+import { TabelaComponent } from './components/tabela/tabela.component';
+import { AlertComponent } from './components/alert/alert.component';
+//Pipes
 import { TypeofPipe } from './pipes/typeof.pipe';
 
 @NgModule({
@@ -11,7 +14,8 @@ import { TypeofPipe } from './pipes/typeof.pipe';
     TypeofPipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxMaskModule.forChild()
   ]
 })
 export class SharedModule { }
