@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Disciplina } from '../shared/models/disciplina.model';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Disciplina } from '../shared/models/disciplina';
 import { AlertComponent } from '../shared/components/alert/alert.component';
 import { DisciplinasService } from './disciplinas.service';
+import { Subscription } from 'rxjs';
 
 /**
  * ViewChild --> indica uma referência a um elemento no DOM
+ * Subscription --> Gerencia cada recurso subscribe preso, ou seja, que aguarda receber notificação;
+ *              --> Possui unsubscribe q fecha o recebimento de notificações (evita vazamento memoria);
+ *              --> Quando o componte é destroído (removido do DOM), é fechado esse recurso;
  */
 
 @Component({
@@ -19,46 +23,50 @@ export class DisciplinasComponent implements OnInit {
   public disciplinas :Disciplina[] = [];
 
   nome: string = '';
-  descricao :string = '';
+  codigo :string = '';
   nomePesquisa :string = '';
-  editando :Disciplina = {id: 0, nome: '', descricao: ''};
-  //erroSalvar :boolean | null = null;
+  editando :Disciplina = {id: 0,  codigo: '', nome: ''};
+  disciplinaSubscription :Subscription = new Subscription();
 
-  @ViewChild(AlertComponent) alertChild :AlertComponent | null = null;
-  //tipoAlerta :string = '';
-  //msgAlert : string = '';
+  @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
   //usará pr fazer injeção de dependencia e criar uma instância em disciplinaService
   constructor(private disciplinaService :DisciplinasService) { }
 
   ngOnInit(): void {
     this.atualizaLista();
-    this.header = ['Nome', 'Descrição'];
-    this.props = ['nome', 'descricao'];
+    this.header = ['Código', 'Nome'];
+    this.props = ['codigo', 'nome'];
+  }
+
+  ngOnDestroy(): void {
+    console.log("DisciplinasComponent destroy!");
+    this.disciplinaSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
-    this.alertChild = new AlertComponent();
+    //this.alertChild = new AlertComponent();
     //console.log(this.alertChild);
   }
 
   atualizaLista() {
-    this.disciplinaService.todos().subscribe(disciplinas => this.disciplinas = disciplinas,
+    this.disciplinaSubscription = this.disciplinaService.todos().subscribe(
+      disciplinas => this.disciplinas = disciplinas,
       () => {
-        this.alertChild!.openAlert('danger', 'Ops! Erro ao carregar dados. Porfavor, tente novamente mais tarde.');
+        this.alertChild.error('Erro ao carregar dados. Porfavor, tente mais tarde.');
       });
   }
 
   salvar() {
-    this.disciplinaService.salvar(this.editando.id, this.nome, this.descricao)
+    this.disciplinaService.salvar(this.editando.id, this.nome, this.codigo)
     .subscribe(disciplinaSalva => {
         this.cancelar();
-        this.alertChild!.openAlert('success', "Disciplina gravada com sucesso!");
+        this.alertChild.success('Disciplina gravada com sucesso!');
         this.atualizaLista();
       },
       error => { //caso ocorrer um erro, executa essa func
         console.error(error); 
-        this.alertChild!.openAlert('danger', "Erro ao gravar, tente novamente.");
+        this.alertChild.error("Erro ao gravar, tente mais tarde.");
       }
     );
   }
@@ -66,15 +74,15 @@ export class DisciplinasComponent implements OnInit {
   excluir(disciplina :any) {
     if (this.editando?.id != 0) {
       alert("Você não pode excluir uma disciplina em modo edição.");
-    } else if ( confirm("Tem certeza que quer remover a disciplina '"+ disciplina.nome +"' ?") ) {
+    } else if ( confirm("Tem certeza que deseja remover a disciplina '"+ disciplina.nome +"' ?") ) {
       //delete nao retorna resultado, msm assim o subscribe é obrigatório pr executar a solicitação do delete
       this.disciplinaService.excluir(disciplina).subscribe(
         sussess => {
-          this.alertChild!.openAlert('success', "Disciplina excluída com sucesso!");
+          this.alertChild.success('Disciplina excluída com sucesso!');
           this.atualizaLista();
         },
         error => {
-          this.alertChild!.openAlert('danger', "Erro ao excluir, tente novamente.");
+          this.alertChild.error('Erro ao excluir, tente mais tarde.');
           console.log(error);
         }
       );
@@ -83,8 +91,8 @@ export class DisciplinasComponent implements OnInit {
 
   editar(disciplina :any) {
     this.editando = disciplina;
+    this.codigo = disciplina.codigo;
     this.nome = disciplina.nome;
-    this.descricao = disciplina.descricao;
   }
 
   pesquisar() {
@@ -92,7 +100,7 @@ export class DisciplinasComponent implements OnInit {
       this.disciplinaService.encontrarPorNome(this.nomePesquisa).subscribe(
         (disciplinas) => this.disciplinas = disciplinas,
         (error) => {
-          this.alertChild?.openAlert('danger', 'Não foi possível encontrar disciplinas.');
+          this.alertChild.error('Não foi possível encontrar disciplinas.');
         }
       )
     } else {
@@ -101,9 +109,9 @@ export class DisciplinasComponent implements OnInit {
   }
 
   cancelar() {
+    this.codigo = '';
     this.nome = '';
-    this.descricao = '';
-    this.editando = {id: 0, nome: '', descricao: ''};
+    this.editando = {id: 0,  codigo: '', nome: ''};
   }
 
   //nao consegui acessar o elemento alerta do filho nessa classe, por isso deixei os métodos no AlertComponent

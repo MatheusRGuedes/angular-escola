@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-//import { AfterViewInit } from '@angular/core'
+import { Alert, AlertType } from './alert.model';
 
 @Component({
   selector: 'app-alert',
@@ -8,48 +8,60 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlertComponent implements OnInit {
 
-  private id_timeOut : NodeJS.Timeout | null = null;
+  alerts :Alert[] = [
+    //{type: AlertType.Success, message: "teste"}, 
+    //{type: AlertType.Danger, message: "teste2"}
+  ];
+  //private id_timeOut: NodeJS.Timeout | null = null;
+  //private arrId :NodeJS.Timeout[] = [];
+  //@ViewChild('alertElement') alertElement :ElementRef | undefined; 
 
-  //@ViewChild('alertElement') alertElement :ElementRef | null = null;
+  constructor() {}
 
-  //não era atualizado seus valores no template, por isso tirei
-  //public tipo :string = '';
-  //public mensagem :string = '';  
+  ngOnInit(): void {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngAfterViewInit() {
+    //console.log(this.alertElement?.nativeElement);
   }
-
-  //ngAfterViewInit() {
-    //this.alertElement= new ElementRef(document.querySelector(".alert"));
-  //}
 
   /**
-   * @param tipo Specifies the type of the alert element. Can be 'danger' or 'success'.
-   * @param mensagem Specifies the message of the alert element.
+   * @param type Sspecifies the type of the alert element. Enum with 'danger' or 'success'.
+   * @param msg Specifies the message of the alert element.
    */
-  openAlert(tipo: string, mensagem: string) {
-    let alertElement = document.getElementById("alertElement");
-    //console.log(alertElement);
+  private addAlert(type: AlertType, msg: string) {
+    let alert = new Alert(type, msg);
+    this.alerts.push(alert);
 
-    if (alertElement != null) {
-      //this.alertElement.nativeElement.style.display = "block";
-      alertElement.classList.add("alert-"+tipo);
-      alertElement.firstElementChild!.innerHTML = mensagem;
-      alertElement.style.display = "block";
-
-      if (tipo === "danger") console.error(mensagem);
-
-      this.id_timeOut = setTimeout(this.closeAlert, 3500);
-    }
+    setTimeout(() => {
+      this.close(alert)
+    }, 3000 + (500 * this.alerts.length));
   }
 
-  closeAlert() {
-    //this.alertElement!.nativeElement.style.display = "none";
+  error(message :string) {
+    console.error(message);
+    this.addAlert(AlertType.Danger, message);
+  }
 
-    //para a execução do setTimeOut, evitando erro de null pointer ou executação dupla
-    clearTimeout(this.id_timeOut!);
-    document.getElementById("alertElement")!.style.display = "none";
+  success(message :string) {
+    this.addAlert(AlertType.Success, message);
+  }
+
+  close(alert: Alert) {
+    if (!alert) return;
+
+    if (!this.alerts.includes(alert)) return;
+
+    this.alerts = this.alerts.filter(x => x !== alert);
+  }
+
+  cssAlert(alert: Alert) :string {
+    const classes = {
+      [AlertType.Success]: "success",
+      [AlertType.Danger]: "danger"
+    }
+
+    let type :string = classes[alert.type];
+
+    return `alert alert-${type} alert-dismissible fade show`;
   }
 }

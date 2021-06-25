@@ -1,0 +1,13 @@
+#alertGroup {
+    font-size: 0.95rem;
+    width: 350px;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+}
+
+/*
+#alertGroup li .btn-close {
+    position: relative;
+    padding: .85rem 1rem;
+}*/

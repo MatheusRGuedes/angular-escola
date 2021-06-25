@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Disciplina } from '../shared/models/disciplina.model';
+import { Disciplina } from '../shared/models/disciplina';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from '../shared/generic-service';
 
@@ -31,11 +31,11 @@ export class DisciplinasService extends GenericService<Disciplina> {
     return this.findAll();
   }
 
-  salvar(id :number, nome :string, descricao :string) {
+  salvar(id :number, nome :string, codigo :string) {
     return this.save(id, 
       {
         "nome": nome, 
-        "descricao": descricao
+        "codigo": codigo
       }
     );
   }

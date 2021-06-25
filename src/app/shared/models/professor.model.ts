@@ -1,8 +1,18 @@
-//Classe pra servir como um modelo de dados para um professor
+import { Disciplina } from "./disciplina";
 
-import { Disciplina } from "./disciplina.model";
+// Servir como um modelo de dados para um professor
 
-export class Professor {
+interface professorModel {
+    id :number;
+    nome :string;
+    endereco :string;
+    salario :number;
+    disciplina? :Disciplina;
+
+    salarioFormatado:() => string;
+}
+
+export class Professor implements professorModel {
     id :number;
     nome :string;
     endereco :string;

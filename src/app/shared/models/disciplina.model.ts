@@ -1,5 +1,5 @@
 
-//Classe pra servir como um modelode dados para uma disciplina
+/*Classe pra servir como um modelode dados para uma disciplina
 
 export class Disciplina {
     id: number;
@@ -13,3 +13,4 @@ export class Disciplina {
         this.descricao = descricao;
     }
 }
+*/

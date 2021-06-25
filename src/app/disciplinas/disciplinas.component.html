@@ -10,21 +10,23 @@
 -->
 <form style="background-color: white;" class="p-3 mb-4" action="" #formDisciplina="ngForm" (ngSubmit)="salvar()">
 
-  <div class="mb-3">
-    <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
-    <input style="width: 20%;" type="text" class="form-control" name="nome" [(ngModel)]="nome" required>
-    <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
-  </div>
+  <div class="d-flex flex-row mb-3">
+    <div class="">
+      <label for="codigo" class="form-label">Código <font style="color: red;">*</font></label>
+      <input type="text" class="form-control" style="width: 60%;" name="codigo" [(ngModel)]="codigo" required />
+    </div>
 
-  <div class="mb-3">
-    <label for="descricao" class="form-label">Descrição</label>
-    <textarea style="width: 30%;" class="form-control" cols="30" rows="3" name="descricao" [(ngModel)]="descricao"></textarea>
-    <!--<span>{{descricao}}</span>-->
+    <div class="col-sm-3">
+      <label for="nome" class="form-label">Nome <font style="color: red;">*</font></label>
+      <input type="text" class="form-control" style="width: 100%;" name="nome" [(ngModel)]="nome" required />
+      <!--Por ser two way databiding, o valor alterado no template é atualizado aqui <span>{{nome}}</span>-->
+    </div>  
   </div>
 
   <button [style.cursor]="!formDisciplina.valid ? 'not-allowed' : 'pointer'" class="btn btn-primary" 
       [disabled]="!formDisciplina.valid">Salvar</button>
-  <button style="margin-left: 10px;" type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+  &nbsp;&nbsp;
+  <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
 </form>
 
 <div class="d-flex mb-3">

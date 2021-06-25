@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DisciplinasService } from '../disciplinas/disciplinas.service';
 import { AlertComponent } from '../shared/components/alert/alert.component';
-import { Disciplina } from '../shared/models/disciplina.model';
+import { Disciplina } from '../shared/models/disciplina';
 import { Professor } from '../shared/models/professor.model';
 import { ProfessorService } from './professor.service';
 
@@ -41,23 +41,23 @@ export class ProfessoresComponent implements OnInit {
     this.atualizaTable();
   }
 
-  atualizaTable() {
-    this.professorService.todos().subscribe(
-      (professores) => { //ok
-        this.professores = professores.map(
-          p => new Professor(p.id, p.nome, p.endereco, p.salario, p.disciplina));
-      }, (error) => {
-        this.alertChild.openAlert("danger", "Ops! Não foi possível carregar os professores.");
-      });
-  }
-
   recuperarDisciplinas() {
     this.disciplinaService.todos().subscribe(
       (disciplinas) => {
         this.disciplinas = disciplinas;
       }, (error) => {
-        this.alertChild.openAlert("danger", "Ops! Não foi possível carregar as disciplinas");
+        this.alertChild.error('Não foi possível carregar as disciplinas.');
         this.disciplinas = [];
+      });
+  }
+
+  atualizaTable() {
+    this.professorService.todos().subscribe(
+      (professores) => { //ok
+        this.professores = 
+          professores.map(p => new Professor(p.id, p.nome, p.endereco, p.salario, p.disciplina));
+      }, (error) => {
+        this.alertChild.error('Não foi possível carregar os professores.');
       });
   }
 
@@ -71,13 +71,13 @@ export class ProfessoresComponent implements OnInit {
           (professor) => {
             this.atualizaTable();
             this.limparForm();
-            this.alertChild.openAlert('success', 'Professor gravado com sucesso.');
+            this.alertChild.success('Professor gravado com sucesso.');
           }, (error) => {
-            this.alertChild.openAlert('danger', 'Não foi possível gravar o professor. Tente mais tarde.');
+            this.alertChild.error('Não foi possível gravar o professor. Tente mais tarde.');
           }
         );
     }, (error) => {
-      this.alertChild.openAlert('danger', 'Ops! Disciplina não encontrada.');
+      this.alertChild.error('Erro ao gravar. Disciplina não encontrada.');
     });
   }
 
@@ -119,9 +119,9 @@ export class ProfessoresComponent implements OnInit {
       this.professorService.excluir(professor).subscribe(
         () => {
           this.atualizaTable();
-          this.alertChild.openAlert('success', 'Professor excluído com sucesso.');
+          this.alertChild.success('Professor excluído com sucesso.');
         }, (error) => {
-          this.alertChild.openAlert('danger', 'Não foi possível excluir o professor. Tente mais tarde.');
+          this.alertChild.error('Erro ao excluir o professor. Tente mais tarde.');
         }
       );
     }
