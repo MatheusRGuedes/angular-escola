@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Disciplina } from '../shared/models/disciplina';
-import { AlertComponent } from '../shared/components/alert/alert.component';
 import { DisciplinasService } from './disciplinas.service';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../shared/components/alert/alert.service';
 
 /**
  * ViewChild --> indica uma referência a um elemento no DOM
@@ -28,10 +28,11 @@ export class DisciplinasComponent implements OnInit {
   editando :Disciplina = {id: 0,  codigo: '', nome: ''};
   disciplinaSubscription :Subscription = new Subscription();
 
-  @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
+  //@ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
   //usará pr fazer injeção de dependencia e criar uma instância em disciplinaService
-  constructor(private disciplinaService :DisciplinasService) { }
+  constructor(private disciplinaService :DisciplinasService,
+    private alertService :AlertService) { }
 
   ngOnInit(): void {
     this.atualizaLista();
@@ -53,7 +54,7 @@ export class DisciplinasComponent implements OnInit {
     this.disciplinaSubscription = this.disciplinaService.todos().subscribe(
       disciplinas => this.disciplinas = disciplinas,
       () => {
-        this.alertChild.error('Erro ao carregar dados. Porfavor, tente mais tarde.');
+        this.alertService.error('Erro ao carregar dados. Porfavor, tente mais tarde.');
       });
   }
 
@@ -61,12 +62,12 @@ export class DisciplinasComponent implements OnInit {
     this.disciplinaService.salvar(this.editando.id, this.nome, this.codigo)
     .subscribe(disciplinaSalva => {
         this.cancelar();
-        this.alertChild.success('Disciplina gravada com sucesso!');
+        this.alertService.success('Disciplina gravada com sucesso!');
         this.atualizaLista();
       },
       error => { //caso ocorrer um erro, executa essa func
         console.error(error); 
-        this.alertChild.error("Erro ao gravar, tente mais tarde.");
+        this.alertService.error("Erro ao gravar, tente mais tarde.");
       }
     );
   }
@@ -78,11 +79,11 @@ export class DisciplinasComponent implements OnInit {
       //delete nao retorna resultado, msm assim o subscribe é obrigatório pr executar a solicitação do delete
       this.disciplinaService.excluir(disciplina).subscribe(
         sussess => {
-          this.alertChild.success('Disciplina excluída com sucesso!');
+          this.alertService.success('Disciplina excluída com sucesso!');
           this.atualizaLista();
         },
         error => {
-          this.alertChild.error('Erro ao excluir, tente mais tarde.');
+          this.alertService.error('Erro ao excluir, tente mais tarde.');
           console.log(error);
         }
       );
@@ -100,7 +101,7 @@ export class DisciplinasComponent implements OnInit {
       this.disciplinaService.encontrarPorNome(this.nomePesquisa).subscribe(
         (disciplinas) => this.disciplinas = disciplinas,
         (error) => {
-          this.alertChild.error('Não foi possível encontrar disciplinas.');
+          this.alertService.error('Não foi possível encontrar disciplinas.');
         }
       )
     } else {

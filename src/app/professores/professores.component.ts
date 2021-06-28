@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DisciplinasService } from '../disciplinas/disciplinas.service';
 import { AlertComponent } from '../shared/components/alert/alert.component';
+import { AlertService } from '../shared/components/alert/alert.service';
 import { Disciplina } from '../shared/models/disciplina';
 import { Professor } from '../shared/models/professor.model';
 import { ProfessorService } from './professor.service';
@@ -19,12 +20,14 @@ export class ProfessoresComponent implements OnInit {
   public professores :Professor[] = [];
   public editando :Professor = new Professor(0, "", "", 0, undefined);
 
-  @ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
+  //@ViewChild(AlertComponent) alertChild :AlertComponent = new AlertComponent();
 
   disciplinas :Disciplina[] = [];
 
-  constructor(private formBuilder :FormBuilder, private disciplinaService :DisciplinasService, 
-      private professorService :ProfessorService) {
+  constructor(private formBuilder :FormBuilder, 
+      private disciplinaService :DisciplinasService, 
+      private professorService :ProfessorService,
+      private alertService: AlertService) {
     this.form = formBuilder.group({
       nome: ['', Validators.required], 
       endereco: ['', Validators.required], 
@@ -41,12 +44,15 @@ export class ProfessoresComponent implements OnInit {
     this.atualizaTable();
   }
 
+  /* Pesquisar sobre desinscrição ao destruir o componente, usando pipe e o take 
+    - https://qastack.com.br/programming/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods
+  */
   recuperarDisciplinas() {
     this.disciplinaService.todos().subscribe(
       (disciplinas) => {
         this.disciplinas = disciplinas;
       }, (error) => {
-        this.alertChild.error('Não foi possível carregar as disciplinas.');
+        this.alertService.error('Não foi possível carregar as disciplinas.');
         this.disciplinas = [];
       });
   }
@@ -57,7 +63,7 @@ export class ProfessoresComponent implements OnInit {
         this.professores = 
           professores.map(p => new Professor(p.id, p.nome, p.endereco, p.salario, p.disciplina));
       }, (error) => {
-        this.alertChild.error('Não foi possível carregar os professores.');
+        this.alertService.error('Não foi possível carregar os professores.');
       });
   }
 
@@ -71,13 +77,13 @@ export class ProfessoresComponent implements OnInit {
           (professor) => {
             this.atualizaTable();
             this.limparForm();
-            this.alertChild.success('Professor gravado com sucesso.');
+            this.alertService.success('Professor gravado com sucesso.');
           }, (error) => {
-            this.alertChild.error('Não foi possível gravar o professor. Tente mais tarde.');
+            this.alertService.error('Não foi possível gravar o professor. Tente mais tarde.');
           }
         );
     }, (error) => {
-      this.alertChild.error('Erro ao gravar. Disciplina não encontrada.');
+      this.alertService.error('Erro ao gravar. Disciplina não encontrada.');
     });
   }
 
@@ -119,9 +125,9 @@ export class ProfessoresComponent implements OnInit {
       this.professorService.excluir(professor).subscribe(
         () => {
           this.atualizaTable();
-          this.alertChild.success('Professor excluído com sucesso.');
+          this.alertService.success('Professor excluído com sucesso.');
         }, (error) => {
-          this.alertChild.error('Erro ao excluir o professor. Tente mais tarde.');
+          this.alertService.error('Erro ao excluir o professor. Tente mais tarde.');
         }
       );
     }

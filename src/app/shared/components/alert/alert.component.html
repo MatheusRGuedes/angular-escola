@@ -11,8 +11,8 @@
 -->
 <div id="alertGroup">
     <!-- id="{{'alert-' + (i+1)}}" -->
-    <div *ngFor="let alert of alerts" [class]="cssAlert(alert)" role="alert" >
+    <div *ngFor="let alert of alertService.alerts" [class]="cssAlert(alert)" role="alert" >
         <span [innerHtml]="alert.message"></span>
-        <button type="button" (click)="close(alert)" class="btn-close" aria-label="Close"></button>
+        <button type="button" (click)="alertService.close(alert)" class="btn-close" aria-label="Close"></button>
     </div>
 </div>
