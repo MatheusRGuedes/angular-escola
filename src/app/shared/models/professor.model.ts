@@ -17,15 +17,15 @@ export class Professor implements professorModel {
     nome :string;
     endereco :string;
     salario :number;
-    disciplina? :Disciplina;
+    disciplinas? :Disciplina[];
 
     constructor(id: number, nome :string, endereco :string, salario :number,
-        disciplina? :Disciplina) {
+        disciplinas? :Disciplina[]) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
-        this.disciplina = disciplina;
+        this.disciplinas = disciplinas;
     }
     
     //retorna de acordo com a mascara do ngx-mask

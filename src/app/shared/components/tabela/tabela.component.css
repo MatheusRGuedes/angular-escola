@@ -10,6 +10,10 @@
     padding: .35rem;
 }
 
+.tabela-customizada p {
+    margin-bottom: 0px;
+}
+
 /* REM deixa a font com tamanho do contexto do BODY
     deixar o body com font de */
 .tabela-customizada tbody tr {

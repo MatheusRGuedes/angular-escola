@@ -25,6 +25,9 @@
           <ng-container [ngSwitch]="(obj[prop] | typeof)">
             <!-- symbol pr aparecer R$ -->
             <td *ngSwitchCase="'number'">{{obj[prop] | currency:'BRL':'symbol'}}</td>
+            <td *ngSwitchCase="'array'">
+              <p *ngFor="let item of obj[prop]">{{item.nome}}</p>
+            </td>
             <td *ngSwitchDefault>{{obj[prop]}}</td>
           </ng-container>
         </ng-template>

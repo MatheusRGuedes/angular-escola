@@ -13,8 +13,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TypeofPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
-    console.log("Pipe works! " + typeof value);
-    return typeof value;
+  transform(value: any, ...args: unknown[]): unknown {
+    let type = typeof value;
+    console.log("Pipe works! " + type);
+
+    if (type == "object") {
+      return value.length == undefined ? "object" : "array";
+    }
+
+    return type;
   }
 }

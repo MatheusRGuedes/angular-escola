@@ -1,11 +1,15 @@
 Tarefas:
 
-- Adicionar opção para pesquisa de registros;
-
 - Permitir incluir mais disciplinas por professor:
     - adicionar popover para exibir os dados na tabela (endereço e disciplinas);
 
 - adicionar tira de endereço;
+
+
+Melhorias:
+
+- Alterar pipe typeof para distingir objeto de array
+- Melhorar opção para pesquisa de registros;
 
 
 Finalizadas: 
