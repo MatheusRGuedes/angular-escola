@@ -13,6 +13,7 @@ import { TabelaComponent } from './shared/components/tabela/tabela.component';
 import { AlertComponent } from './shared/components/alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { ProfessoresComponent } from './professores/professores.component';
+import { PopoverComponent } from './shared/components/popover/popover.component';
 
 //Serviços
 import { DisciplinasService } from './disciplinas/disciplinas.service';
@@ -25,6 +26,7 @@ import { TypeofPipe } from './shared/pipes/typeof.pipe';
 import { LOCALE_ID } from '@angular/core'; 
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+
 registerLocaleData(localePt);
 
 /*
@@ -43,7 +45,8 @@ registerLocaleData(localePt);
     AlertComponent,
     HomeComponent,
     ProfessoresComponent,
-    TypeofPipe
+    TypeofPipe,
+    PopoverComponent
   ],
   imports: [
     BrowserModule,

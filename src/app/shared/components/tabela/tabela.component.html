@@ -8,6 +8,15 @@
   </thead>
   
   <tbody>
+    <tr *ngIf="registros.length == 0">
+      <td [attr.colspan]="header.length + 2">
+        <div class="conteiner-vazio">
+          <i class="fas fa-inbox" style="font-size: 3rem;"></i>
+          <p>Nenhum dado.</p>
+        </div>
+      </td>
+    </tr>
+
     <tr *ngFor="let obj of registros | paginate: { itemsPerPage: qntddPorPag, currentPage: paginaAtual }"
         [class.linhaMarcada]="editando == obj"> <!--let i = index-->
   
@@ -42,7 +51,7 @@
   </tbody>
 </table>
 
-<div class="pagination-panel">
+<div *ngIf="registros.length > 0" class="pagination-panel">
   <!-- Painel de controle das páginas -->
   <pagination-controls class="pagination-reutilizavel-control" 
       (pageChange)="paginaAtual = $event"

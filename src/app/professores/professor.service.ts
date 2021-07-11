@@ -1,30 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { GenericService } from '../shared/generic-service';
 import { Professor } from '../shared/models/professor.model';
+
+interface teste {
+
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfessorService extends GenericService<Professor> {
+export class ProfessorService {
 
   //public novoId :number = 4;
   //public professores :Professor[] = [];
   //public professorAchado :Professor | null = null;
+  private genericService :GenericService<Professor>;
 
   constructor(protected http: HttpClient) {
-    super(http, "http://localhost:3000/professores");
+    this.genericService = new GenericService(http, `${environment.API_FAKE}professores`);
   }
 
   todos() {
-    return this.findAll();
+    return this.genericService.findAll();
   }
 
   salvar(id :number, professor: Object) {
-    return this.save(id, professor);
+    return this.genericService.save(id, professor);
   }
 
   excluir(professor :Professor) {
-    return this.delete(professor.id);
+    return this.genericService.delete(professor.id);
   }
 }

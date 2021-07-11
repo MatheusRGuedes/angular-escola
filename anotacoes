@@ -1,17 +1,8 @@
 Tarefas:
 
-- Permitir incluir mais disciplinas por professor:
-    - adicionar popover para exibir os dados na tabela (endereço e disciplinas);
-
+- adicionar popover para exibir os dados na tabela (endereço e disciplinas);
 - adicionar tira de endereço;
-
+- Criar componente para os botoes salvar/cancelar
 
 Melhorias:
-
-- Alterar pipe typeof para distingir objeto de array
 - Melhorar opção para pesquisa de registros;
-
-
-Finalizadas: 
-
-    - ajeitar o painel de paginação, em baixo da tabela;

@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="submit" class="btn btn-primario">Salvar</button>
     &nbsp;&nbsp;
     <button type="button" class="btn btn-secondary" (click)="limparForm()">Cancelar</button>
 
@@ -59,3 +59,13 @@
               (onEditar)="editar($event)"
               (onExcluir)="excluir($event)">
 </app-tabela>
+
+<!--
+<app-popover buttonIcon="book">
+    <p class="d-flex">
+        <ng-container *ngFor="let disciplina of testeArr">
+            {{disciplina.nome + ', '}}
+        </ng-container>
+    </p>
+</app-popover>
+-->

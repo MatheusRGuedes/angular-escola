@@ -1,3 +1,13 @@
+.conteiner-vazio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0px;
+    font-weight: 700;
+    color: #d8dce6;
+}
+
 .tabela-customizada {
     width: 100%;
     background-color: white;
@@ -19,7 +29,6 @@
 .tabela-customizada tbody tr {
     font-size: 0.9rem;
     color: rgb(102, 102, 105);
-    margin-top: 10px;
     border-bottom: 1px solid #dddddd;
 }
 .tabela-customizada tbody tr:last-child {

@@ -1,0 +1,25 @@
+<!--
+    data-popper-placement:
+        - top (bs-popover-top)
+        - rigth (bs-popover-end)
+        - left (bs-popover-start)
+        - bottom (bs-popover-bottom)
+
+-->
+<button type="button" class="btn" (click)="toggle()"  
+    style="position: relative;" >
+
+    <i class="fas fa-{{buttonIcon}}"></i>
+
+    <div *ngIf="isActive" class="popover fade show bs-popover-bottom" role="tooltip" data-popper-placement="bottom">
+        
+        <div class="popover-arrow"></div>
+        
+        <div class="popover-body">
+            <!--Matemática, Português, Inglês, Geografia, Física, Empreendedorismo-->
+            <!--Faz o biding para dentro dessa tag do conteúdo fornecido na chamada do componente-->
+            <ng-content></ng-content>
+        </div>
+    </div>
+
+</button>

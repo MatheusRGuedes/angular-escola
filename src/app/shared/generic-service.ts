@@ -4,21 +4,18 @@ import { HttpClient } from "@angular/common/http";
     Classe genérica para serviço de requisição
 */
 export class GenericService<T> {
-
-    //private readonly API_URL :string = "http://localhost:3000";
-
-    // TODO: Depois dar uma olhada sobre environment para ter variaveis q tenham cada url d requisição
+    
     constructor(protected http: HttpClient, private API_URL :string) {}
 
     /**
-     * Retorna todos os registros.
+     * Return all registers.
      */
     findAll() {
         return this.http.get<T[]>( `${this.API_URL}` );
     }
 
     /**
-     * Retorna apenas um registro existente.
+     * Retorn only one existing register.
      */
     findOne(id: number) {
         return this.http.get<T>( `${this.API_URL}/${id}` );
@@ -29,13 +26,13 @@ export class GenericService<T> {
     }
 
     private insert(record : Object) {
-        return this.http.post( `${this.API_URL}` , record)
+        return this.http.post( `${this.API_URL}` , record);
     }
     
     /**
-     * Método para inserir ou atualizar.
-     * @param id Identificador do objeto.
-     * @param record Novo objeto a ser atualizado.
+     * Method for insert or update.
+     * @param id Object identificator.
+     * @param record New object to be updated.
      */
     save(id :number, record: Object) {
         if (id) {

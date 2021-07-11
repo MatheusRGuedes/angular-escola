@@ -1,0 +1,21 @@
+/*https://codepen.io/chocochip/pen/zYxMgRG*/
+.popover {
+    left: -49px;
+
+    /*para o topo
+    transform: translate(0px, -129px);
+    */
+
+    /*para baixo*/
+    transform: translate(0px, 45px);
+}
+
+div .popover-arrow {
+    position: absolute;
+    left: 0px;
+    transform: translate(60px, 0px);    
+}
+
+.popover-body {
+    padding: 8px;
+}

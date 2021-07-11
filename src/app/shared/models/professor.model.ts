@@ -7,7 +7,7 @@ interface professorModel {
     nome :string;
     endereco :string;
     salario :number;
-    disciplina? :Disciplina;
+    disciplinas? :Disciplina[];
 
     salarioFormatado:() => string;
 }

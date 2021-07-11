@@ -6,12 +6,14 @@ import { TabelaComponent } from './components/tabela/tabela.component';
 import { AlertComponent } from './components/alert/alert.component';
 //Pipes
 import { TypeofPipe } from './pipes/typeof.pipe';
+import { PopoverComponent } from './components/popover/popover.component';
 
 @NgModule({
   declarations: [
     TabelaComponent, 
     AlertComponent, 
-    TypeofPipe
+    TypeofPipe, 
+    PopoverComponent
   ],
   imports: [
     CommonModule,
