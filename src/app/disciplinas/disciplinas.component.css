@@ -1,5 +1,21 @@
+/*@import '/src/assets/styles/reusable-styles.css'; */
+
+.conteudo-titulo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.conteudo-titulo div {
+    display: inline-block;
+}
+
+.conteudo-titulo p {
+    font-size: 1.25rem;
+}
+
 /* only previne q navegadores mais antigo q n suportam media querie d aplicar os estilos*/
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 576px) { 
     input[name="nome"], textarea {
         width: 100% !important;
     }

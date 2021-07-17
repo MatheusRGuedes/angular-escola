@@ -3,6 +3,7 @@ import { Disciplina } from '../shared/models/disciplina';
 import { DisciplinasService } from './disciplinas.service';
 import { Subscription } from 'rxjs';
 import { AlertService } from '../shared/components/alert/alert.service';
+import { HttpParams } from '@angular/common/http';
 
 /**
  * ViewChild --> indica uma referência a um elemento no DOM
@@ -25,6 +26,7 @@ export class DisciplinasComponent implements OnInit {
   nome: string = '';
   codigo :string = '';
   nomePesquisa :string = '';
+  codigoPesquisa :string = '';
   editando :Disciplina = {id: 0,  codigo: '', nome: ''};
   disciplinaSubscription :Subscription = new Subscription();
 
@@ -97,16 +99,18 @@ export class DisciplinasComponent implements OnInit {
   }
 
   pesquisar() {
-    if (this.nomePesquisa.trim() != "") {
-      this.disciplinaService.encontrarPorNome(this.nomePesquisa).subscribe(
-        (disciplinas) => this.disciplinas = disciplinas,
-        (error) => {
-          this.alertService.error('Não foi possível encontrar disciplinas.');
-        }
-      )
-    } else {
-      this.atualizaLista();
-    }
+    let searchParams = new HttpParams();
+
+    if (this.nomePesquisa) searchParams = searchParams.append('nome', this.nomePesquisa);
+    if (this.codigoPesquisa) searchParams = searchParams.append('codigo', this.codigoPesquisa);
+    
+    this.disciplinaService.encontrarPorNome(searchParams).subscribe(
+      (disciplinas) => this.disciplinas = disciplinas,
+      (error) => {
+        this.alertService.error('Erro ao encontrar disciplinas. Tente mais tarde.');
+        console.log(error);
+      }
+    )
   }
 
   cancelar() {
@@ -114,6 +118,4 @@ export class DisciplinasComponent implements OnInit {
     this.nome = '';
     this.editando = {id: 0,  codigo: '', nome: ''};
   }
-
-  //nao consegui acessar o elemento alerta do filho nessa classe, por isso deixei os métodos no AlertComponent
 }

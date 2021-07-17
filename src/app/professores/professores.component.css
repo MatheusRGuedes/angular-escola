@@ -1,7 +1,13 @@
-@media only screen and (max-width: 992px) {
-    form div .blocoInput {
-        width: 50% !important;
-    }
+.conteudo-titulo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.conteudo-titulo div {
+    display: inline-block;
+}
+.conteudo-titulo p {
+    font-size: 1.25rem;
 }
 
 form label {
@@ -16,4 +22,14 @@ form label {
     color: #fff;
     background-color: #2199e8;
     border-color: #2199e8;
+}
+
+@media only screen and (max-width: 992px) {
+    form div .blocoInput {
+        width: 50% !important;
+    }
+
+    form .segunda-linha-esq {
+        width: 60%;
+    }
 }

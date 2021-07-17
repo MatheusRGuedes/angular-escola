@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Disciplina } from '../shared/models/disciplina';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { GenericService } from '../shared/generic-service';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 /*
   Classe de serviço para separar a regra de negócio do controler
@@ -17,10 +18,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DisciplinasService {
-
-  //public novo_id :number = 10;
-  //public disciplinas :Disciplina[] = [];
-  //public discEncontrada :Disciplina | null = null; 
+  
   private readonly DISCIPLINA_URL :string = `${environment.API_FAKE}disciplinas`;
   private genericService :GenericService<Disciplina>;
 
@@ -46,24 +44,12 @@ export class DisciplinasService {
   }
 
   //https://angular.io/api/common/http/HttpClient#http-request-example
-  encontrarPorNome(nome :string) {
-    return this.http.get<Disciplina[]>(`${this.DISCIPLINA_URL}?nome=${nome}`);
+  encontrarPorNome(searchParams : HttpParams) {
+    const options = { params: searchParams };
+    return this.http.get<Disciplina[]>(`${this.DISCIPLINA_URL}`, options);
   }
 
   excluir(disciplina :Disciplina) {
-    /*if (disciplina && disciplina.id != null) {
-      this.encontrar(disciplina.id).subscribe(disciplina => {
-        console.log(disciplina)
-        this.discEncontrada = disciplina;
-      });
-    }
-
-    if (this.discEncontrada) {
-      this.discEncontrada = null;*/
       return this.genericService.delete(disciplina.id);
-    /*} else {
-      this.discEncontrada = null;
-      throw new Error('Erro! Disciplina não encontrada.');
-    }*/
   }
 }
